@@ -1,0 +1,816 @@
+<!DOCTYPE html><html lang="zh-CN" class="light"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pt/CeO₂催化剂低温下增强稀释环氧乙烷催化氧化的研究</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        :root {
+            --primary: #3b82f6;
+            --secondary: #0f172a;
+            --accent: #2563eb;
+            --background: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --card-bg: #f8fafc;
+            --highlight: #dbeafe;
+        }
+
+        .dark {
+            --primary: #3b82f6;
+            --secondary: #f8fafc;
+            --accent: #60a5fa;
+            --background: #0f172a;
+            --text: #f1f5f9;
+            --text-light: #94a3b8;
+            --border: #1e293b;
+            --card-bg: #1e293b;
+            --highlight: #1e3a8a;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            transition: all 0.3s ease;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Custom Components */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .highlight {
+            background-color: var(--highlight);
+            color: var(--primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+        }
+
+        /* Section Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Specific Components */
+        .paper-title {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            color: var(--text);
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 300px;
+            margin: 2rem 0;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--highlight);
+        }
+
+        /* Schema visualization */
+        .schema {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .schema-arrow {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .schema-box {
+            padding: 1rem;
+            background-color: var(--highlight);
+            border-radius: 0.5rem;
+            margin: 0.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .schema-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Author section */
+        .author-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+            background-color: var(--card-bg);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .author-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .social-links a {
+            margin: 0 0.5rem;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+            transform: scale(1.2);
+        }
+
+        /* Reaction mechanism visualization */
+        .mechanism {
+            overflow-x: auto;
+            padding: 1rem 0;
+        }
+
+        .pathway {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: nowrap;
+            margin: 1rem 0;
+        }
+
+        .molecule {
+            padding: 0.75rem 1.25rem;
+            background-color: var(--highlight);
+            border-radius: 0.5rem;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            white-space: nowrap;
+        }
+
+        .arrow {
+            color: var(--primary);
+            margin: 0 0.25rem;
+            font-size: 1.25rem;
+        }
+
+        @media (max-width: 768px) {
+            .paper-title {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.25rem;
+            }
+            
+            .chart-container {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="py-4 border-b border-solid" style="border-color: var(--border);">
+        <div class="container flex justify-between items-center">
+            <h1 class="text-lg font-semibold">催化研究</h1>
+            <button id="themeToggle" class="theme-toggle">
+                <i class="fas fa-sun dark:hidden"></i>
+                <i class="fas fa-moon hidden dark:block"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container py-8">
+        <!-- Paper Title Section -->
+        <section class="mb-12 fade-in">
+            <h1 class="paper-title">Pt/CeO₂催化剂低温下增强稀释环氧乙烷催化氧化的研究</h1>
+            <div class="flex flex-wrap items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+                <span class="mr-4 mb-2">
+                    <i class="fas fa-newspaper mr-1"></i> Applied Catalysis A, General 639 (2022)
+                </span>
+                <span class="mr-4 mb-2">
+                    <i class="fas fa-calendar-alt mr-1"></i> 2022年4月26日
+                </span>
+                <span class="mb-2">
+                    <i class="fas fa-users mr-1"></i> 刘宇峰, 周颖, 柯全利等
+                </span>
+            </div>
+            <p class="text-lg leading-relaxed mb-6" style="color: var(--text-light);">
+                本研究展示了一种对稀释环氧乙烷(EO)进行彻底催化燃烧的方法。选择了Pt活性相和CeO₂载体引入协同效应，结果表明与广泛使用的Pt/Al₂O₃催化剂相比，Pt/CeO₂催化剂表现出更优异的催化活性和更小的结焦趋势。
+            </p>
+            <div class="flex flex-wrap gap-2">
+                <span class="highlight">环氧乙烷</span>
+                <span class="highlight">稀释气体</span>
+                <span class="highlight">Pt/CeO₂</span>
+                <span class="highlight">催化氧化</span>
+                <span class="highlight">降解途径</span>
+            </div>
+        </section>
+
+        <!-- Research Context -->
+        <section class="mb-12 fade-in">
+            <h2 class="section-title">研究背景</h2>
+            <div class="card p-6 mb-6">
+                <h3 class="font-semibold text-lg mb-2">环氧乙烷的应用与危害</h3>
+                <p class="mb-4">环氧乙烷(EO)是继甲醛之后的新一代优秀杀菌剂和消毒剂，广泛应用于医疗行业灭菌，特别是在存在热敏或辐射敏感物品(如软聚合物)的情况下。</p>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1 bg-blue-50 dark:bg-blue-900 p-4 rounded-lg">
+                        <h4 class="font-medium mb-2">应用场景</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>医疗设备消毒</li>
+                            <li>热敏感材料灭菌</li>
+                            <li>软聚合物处理</li>
+                        </ul>
+                    </div>
+                    <div class="flex-1 bg-red-50 dark:bg-red-900 p-4 rounded-lg">
+                        <h4 class="font-medium mb-2">健康与安全风险</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>易燃性气体 (沸点: 10.8°C)</li>
+                            <li>世界卫生组织致癌物清单 (2012, 第І类)</li>
+                            <li>工作场所允许暴露限值: 1 ppm</li>
+                            <li>长期暴露限值 (每周40小时): 0.5 ppm</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-6">
+                <h3 class="font-semibold text-lg mb-2">传统处理方法的局限性</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div class="p-4 border border-solid rounded-lg" style="border-color: var(--border);">
+                        <div class="text-center mb-2">
+                            <i class="fas fa-fire text-2xl text-orange-500"></i>
+                        </div>
+                        <h4 class="font-medium text-center mb-2">热氧化</h4>
+                        <p class="text-sm">需要高温操作，可能导致EO爆炸，存在安全问题</p>
+                    </div>
+                    <div class="p-4 border border-solid rounded-lg" style="border-color: var(--border);">
+                        <div class="text-center mb-2">
+                            <i class="fas fa-filter text-2xl text-purple-500"></i>
+                        </div>
+                        <h4 class="font-medium text-center mb-2">吸附法</h4>
+                        <p class="text-sm">放热吸附过程中，浓缩的EO气体易聚合，影响吸附剂的循环使用</p>
+                    </div>
+                    <div class="p-4 border border-solid rounded-lg" style="border-color: var(--border);">
+                        <div class="text-center mb-2">
+                            <i class="fas fa-leaf text-2xl text-green-500"></i>
+                        </div>
+                        <h4 class="font-medium text-center mb-2">生物降解</h4>
+                        <p class="text-sm">在实际自然环境中，EO的降解效率可能存在问题</p>
+                    </div>
+                </div>
+                <p>催化燃烧是一种有前景的方法，可以高效、完全地将VOCs转化为无害的CO₂和H₂O，同时较低的操作温度和投资可以缓解安全和经济方面的担忧。</p>
+            </div>
+        </section>
+
+        <!-- Core Results -->
+        <section class="mb-12 fade-in">
+            <h2 class="section-title">核心研究结果</h2>
+            
+            <div class="card p-6 mb-6">
+                <h3 class="font-semibold text-lg mb-4">催化性能评估</h3>
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="flex-1">
+                        <h4 class="font-medium mb-2">催化剂活性比较</h4>
+                        <p class="mb-4">研究发现，与广泛使用的Pt/Al₂O₃催化剂相比，Pt/CeO₂催化剂表现出更优异的催化活性：</p>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full border-collapse">
+                                <thead>
+                                    <tr>
+                                        <th class="py-2 px-4 border border-solid text-left" style="border-color: var(--border);">催化剂</th>
+                                        <th class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">T₉₀(°C)</th>
+                                        <th class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">碳沉积</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4 border border-solid" style="border-color: var(--border);">Pt/CeO₂</td>
+                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">158</td>
+                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">极少</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border border-solid" style="border-color: var(--border);">Pt/Al₂O₃</td>
+                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">238</td>
+                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">严重</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border border-solid" style="border-color: var(--border);">CeO₂</td>
+                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">198</td>
+                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">少量</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border border-solid" style="border-color: var(--border);">Al₂O₃</td>
+                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">270+</td>
+                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">严重</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm mt-2" style="color: var(--text-light);">注: T₉₀表示90%EO转化率所需的温度</p>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-medium mb-2">活性评估关键发现</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Pt/CeO₂催化剂对稀释EO源表现出较低温度下的优异催化活性</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Pt/CeO₂催化剂在反应过程中保持稳定的转化率</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Pt/Al₂O₃催化剂在催化氧化过程中表现出转化率下降趋势</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>产物分析显示，Pt/CeO₂的产物主要为CO₂，而Pt/Al₂O₃催化剂产生更多副产物</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-6 mb-6">
+                <h3 class="font-semibold text-lg mb-4">碳沉积分析</h3>
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="flex-1">
+                        <h4 class="font-medium mb-2">热重分析结果</h4>
+                        <p class="mb-4">对使用后的催化剂进行热重分析，显示了不同催化剂的碳沉积情况：</p>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full border-collapse">
+                                <thead>
+                                    <tr>
+                                        <th class="py-2 px-4 border border-solid text-left" style="border-color: var(--border);">催化剂</th>
+                                        <th class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">水脱附<br>重量损失(%)</th>
+                                        <th class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">中间体氧化<br>重量损失(%)</th>
+                                        <th class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">碳沉积燃烧<br>重量损失(%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4 border border-solid" style="border-color: var(--border);">Pt/CeO₂</td>
+                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">1.6</td>
+                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">0.7</td>
+                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">0.1</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border border-solid" style="border-color: var(--border);">Pt/Al₂O₃</td>
+                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">3.8</td>
+                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">5.0</td>
+                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">6.0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-medium mb-2">碳沉积分析结论</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-exclamation-circle text-yellow-500 mt-1 mr-2"></i>
+                                <span>Pt/Al₂O₃催化剂表面明显变暗，表明严重的碳沉积</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-exclamation-circle text-yellow-500 mt-1 mr-2"></i>
+                                <span>Pt/Al₂O₃催化剂表面存在大量的吸附水和中间体，促进了碳沉积形成</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-exclamation-circle text-yellow-500 mt-1 mr-2"></i>
+                                <span>Pt/CeO₂催化剂表面仅有极少量的碳沉积，反应后外观几乎不变</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-exclamation-circle text-yellow-500 mt-1 mr-2"></i>
+                                <span>碳沉积不仅阻塞孔隙，还覆盖活性位点，影响催化剂活性</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-6">
+                <h3 class="font-semibold text-lg mb-4">催化剂表征分析</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-medium mb-2">XPS和H₂-TPR分析主要发现</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-atom text-blue-500 mt-1 mr-2"></i>
+                                <span>Pt/CeO₂催化剂中，Ce³⁺含量达到36.9%，表明存在丰富的氧空位</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-atom text-blue-500 mt-1 mr-2"></i>
+                                <span>Pt/CeO₂催化剂在88°C处的H₂消耗量高达84.8 μmol/g，证明其更优越的电子转移能力</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-atom text-blue-500 mt-1 mr-2"></i>
+                                <span>Pt/Al₂O₃催化剂表面吸附氧比例高达40.1%，主要来自羟基和水</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-atom text-blue-500 mt-1 mr-2"></i>
+                                <span>Pt/CeO₂催化剂具有更强的金属-载体相互作用和更丰富的氧空位</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-medium mb-2">Pt与CeO₂之间的协同效应</h4>
+                        <div class="schema p-4 relative">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="schema-box">
+                                    <div class="mb-2 font-bold">Pt粒子</div>
+                                    <div>活化氧气分子</div>
+                                </div>
+                                <div class="schema-box">
+                                    <div class="mb-2 font-bold">CeO₂载体</div>
+                                    <div>提供氧空位活化EO</div>
+                                </div>
+                            </div>
+                            <div class="mt-4 text-center">
+                                <div class="font-medium mb-2">协同机制:</div>
+                                <p>EO在CeO₂表面被晶格氧氧化 (Ce⁴⁺→Ce³⁺)，消耗的晶格氧随后通过Pt粒子活化的氧分子迁移补充 (Ce³⁺→Ce⁴⁺)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Degradation Mechanism -->
+        <section class="mb-12 fade-in">
+            <h2 class="section-title">降解机理分析</h2>
+            
+            <div class="card p-6 mb-6">
+                <h3 class="font-semibold text-lg mb-4">原位红外光谱(DRIFTS)研究</h3>
+                <p class="mb-4">通过原位DRIFTS研究不同催化剂表面EO的降解途径，揭示了不同催化剂催化降解EO的机理差异：</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-medium mb-2 text-center">Pt/CeO₂催化剂上的降解路径</h4>
+                        <div class="mechanism">
+                            <div class="pathway">
+                                <div class="molecule">环氧乙烷</div>
+                                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="molecule">乙醛</div>
+                                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="molecule">乙酸</div>
+                                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="molecule">CO₂ + H₂O</div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h5 class="font-medium mb-2">关键发现:</h5>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fas fa-caret-right text-green-500 mt-1 mr-2"></i>
+                                    <span>简单串联降解路径</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-caret-right text-green-500 mt-1 mr-2"></i>
+                                    <span>表面羟基信号强度几乎不变，表明H₂O易脱离催化剂表面</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-caret-right text-green-500 mt-1 mr-2"></i>
+                                    <span>弱H₂O亲和力抑制EO的多缩聚反应</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-caret-right text-green-500 mt-1 mr-2"></i>
+                                    <span>乙酸的降解可能是EO催化氧化的关键步骤</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium mb-2 text-center">Pt/Al₂O₃催化剂上的降解路径</h4>
+                        <div class="mechanism">
+                            <div class="pathway">
+                                <div class="molecule">环氧乙烷</div>
+                                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="molecule">CO₂ + H₂O</div>
+                            </div>
+                            <div class="pathway">
+                                <div class="molecule">H₂O + Al₂O₃</div>
+                                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="molecule">表面羟基</div>
+                                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="molecule">酸催化</div>
+                            </div>
+                            <div class="pathway">
+                                <div class="molecule">环氧乙烷</div>
+                                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="molecule">乙二醇</div>
+                                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                                <div class="molecule">聚合物/焦炭</div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h5 class="font-medium mb-2">关键发现:</h5>
+                            <ul class="space-y-2">
+                                <li class="flex items-start">
+                                    <i class="fas fa-caret-right text-red-500 mt-1 mr-2"></i>
+                                    <span>复杂多路径降解机制</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-caret-right text-red-500 mt-1 mr-2"></i>
+                                    <span>CO₂在催化剂表面积累形成稳定碳酸盐</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-caret-right text-red-500 mt-1 mr-2"></i>
+                                    <span>表面存在大量羟基，作为酸性位点引发副反应</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-caret-right text-red-500 mt-1 mr-2"></i>
+                                    <span>EO易水合生成乙二醇，进一步聚合形成二聚体、聚合物或焦炭</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card p-6">
+                <h3 class="font-semibold text-lg mb-3">降解机理总结</h3>
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="flex-1">
+                        <h4 class="font-medium mb-2 text-green-600 dark:text-green-400">Pt/CeO₂优势</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
+                                <span>简单串联降解路径，副产物少</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
+                                <span>较弱的H₂O亲和力，抑制多缩聚反应</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
+                                <span>更强的金属-载体相互作用，促进氧活化</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
+                                <span>丰富的氧空位，有利于EO的活化</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
+                                <span>催化剂表面快速恢复，适合下一轮催化循环</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-medium mb-2 text-red-600 dark:text-red-400">Pt/Al₂O₃劣势</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-minus-circle text-red-500 mt-1 mr-2"></i>
+                                <span>复杂多路径降解机制，副产物多</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-minus-circle text-red-500 mt-1 mr-2"></i>
+                                <span>表面酸性催化反应导致多种副产物</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-minus-circle text-red-500 mt-1 mr-2"></i>
+                                <span>CO₂在表面形成稳定碳酸盐，需要更高温度分解</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-minus-circle text-red-500 mt-1 mr-2"></i>
+                                <span>强H₂O亲和力，促进乙二醇形成和聚合反应</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-minus-circle text-red-500 mt-1 mr-2"></i>
+                                <span>严重碳沉积覆盖活性位点，影响催化活性</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="mb-12 fade-in">
+            <h2 class="section-title">结论与应用前景</h2>
+            <div class="card p-6">
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-lg mb-3">主要结论</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-2"></i>
+                                <span>Pt/CeO₂催化剂在稀释EO催化氧化中表现出优异活性，T₉₀仅为158°C</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-2"></i>
+                                <span>Pt与CeO₂之间的强金属-载体相互作用和丰富氧空位是其优异性能的关键</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-2"></i>
+                                <span>Pt/CeO₂催化剂弱H₂O亲和力抑制了EO的多缩聚反应，显著减少碳沉积</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-2"></i>
+                                <span>Pt/CeO₂催化剂上EO降解呈现简单串联路径，而Pt/Al₂O₃上则是复杂多路径机制</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-lg mb-3">应用前景</h3>
+                        <p class="mb-4">Pt/CeO₂催化剂的高活性和弱H₂O亲和力使其在实际应用条件下非常有前景：</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-industry text-blue-500 mt-1 mr-2"></i>
+                                <span>医疗器械灭菌后EO废气处理</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-industry text-blue-500 mt-1 mr-2"></i>
+                                <span>EO工业生产过程中稀释废气处理</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-industry text-blue-500 mt-1 mr-2"></i>
+                                <span>环境污染控制和工业安全防护</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-industry text-blue-500 mt-1 mr-2"></i>
+                                <span>低温催化氧化技术推广应用</span>
+                            </li>
+                        </ul>
+                        <p class="mt-4">研究结果表明，Pt/CeO₂催化剂在稀释EO催化氧化中具有显著优势，可进一步探索其规模化应用。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-8 border-t border-solid" style="border-color: var(--border);">
+        <div class="container">
+            <div class="mb-8">
+                <div class="author-card mx-auto max-w-md">
+                    <div class="author-avatar">LY</div>
+                    <h3 class="text-xl font-semibold mb-2">Luo Yuan</h3>
+                    <p class="text-sm mb-4" style="color: var(--text-light);">催化研究内容策划与可视化</p>
+                    <div class="social-links flex justify-center">
+                        <a href="https://twitter.com/luoyuan" target="_blank"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="https://github.com/luoyuan" target="_blank"><i class="fab fa-github text-xl"></i></a>
+                        <a href="https://linkedin.com/in/luoyuan" target="_blank"><i class="fab fa-linkedin text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-sm" style="color: var(--text-light);">
+                <p>© 2025 Luo Yuan. 保留所有权利。</p>
+                <p class="mt-2">原始论文: Liu 等 - 2022 - Enhanced catalytic oxidation of diluted ethylene oxide on Pt/CeO2 catalyst under low temperature</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        // Function to set theme
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+        
+        // Check for saved theme preference or use system preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else {
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            setTheme(systemPrefersDark ? 'dark' : 'light');
+        }
+        
+        // Toggle theme on click
+        themeToggle.addEventListener('click', () => {
+            if (html.classList.contains('dark')) {
+                setTheme('light');
+            } else {
+                setTheme('dark');
+            }
+        });
+        
+        // Animate elements when they appear in viewport
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        fadeElements.forEach(element => {
+            observer.observe(element);
+        });
+        
+        // Apply dark mode classes manually to elements
+        function updateDarkModeClasses() {
+            const isDark = html.classList.contains('dark');
+            const icons = document.querySelectorAll('.fas.fa-sun, .fas.fa-moon');
+            
+            icons.forEach(icon => {
+                if (icon.classList.contains('fa-sun')) {
+                    icon.classList.toggle('hidden', isDark);
+                } else if (icon.classList.contains('fa-moon')) {
+                    icon.classList.toggle('hidden', !isDark);
+                }
+            });
+        }
+        
+        // Update dark mode classes when theme changes
+        themeToggle.addEventListener('click', updateDarkModeClasses);
+        // Initial update
+        updateDarkModeClasses();
+    </script>
+
+
+</body></html>
