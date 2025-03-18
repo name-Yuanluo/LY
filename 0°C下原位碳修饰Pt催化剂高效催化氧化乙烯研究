@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0°C下原位碳修饰Pt催化剂高效催化氧化乙烯研究</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* 基础样式 */
+        :root {
+            --primary: #0066FF;
+            --primary-dark: #0052CC;
+            --secondary: #6B7280;
+            --bg-light: #FFFFFF;
+            --bg-dark: #121212;
+            --text-light: #1F2937;
+            --text-dark: #F3F4F6;
+            --border-light: #E5E7EB;
+            --border-dark: #374151;
+            --card-light: #F9FAFB;
+            --card-dark: #1F2937;
+        }
+
+        .light {
+            --bg: var(--bg-light);
+            --text: var(--text-light);
+            --border: var(--border-light);
+            --card: var(--card-light);
+        }
+
+        .dark {
+            --bg: var(--bg-dark);
+            --text: var(--text-dark);
+            --border: var(--border-dark);
+            --card: var(--card-dark);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .card {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        /* 主要部分样式 */
+        .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -0.5rem;
+            width: 3rem;
+            height: 0.25rem;
+            background-color: var(--primary);
+            border-radius: 0.25rem;
+        }
+
+        /* 自定义组件 */
+        .data-chart {
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 1rem;
+        }
+
+        .chart-bar {
+            width: 2rem;
+            background-color: var(--primary);
+            border-radius: 0.25rem 0.25rem 0 0;
+            transition: height 1s ease;
+        }
+
+        .chart-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            padding: 0.5rem;
+        }
+
+        /* 切换主题按钮 */
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* 图表样式 */
+        .catalyst-performance {
+            display: flex;
+            height: 200px;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .performance-bar {
+            width: 50px;
+            background: linear-gradient(to top, var(--primary), #60a5fa);
+            border-radius: 5px 5px 0 0;
+            position: relative;
+            transition: height 1s ease;
+        }
+        
+        .performance-label {
+            position: absolute;
+            bottom: -30px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+        
+        .performance-value {
+            position: absolute;
+            top: -25px;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="py-6 border-b border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-2xl md:text-3xl font-bold">0°C下原位碳修饰Pt催化剂高效催化氧化乙烯研究</h1>
+            <label class="theme-switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="mb-16 fade-in">
+            <div class="bg-blue-50 dark:bg-blue-900 p-6 rounded-lg mb-8">
+                <h2 class="text-xl font-bold mb-4">研究概要</h2>
+                <p class="mb-4">本研究开发了一种用于低温高效催化氧化乙烯(C<sub>2</sub>H<sub>4</sub>)的催化剂，通过原位碳修饰SBA-15负载的Pt催化剂(Pt/CSBA-15)，实现了在0°C下长时间高效催化氧化乙烯的目标。这对延长水果和蔬菜的保质期具有重要意义。</p>
+                <div class="flex flex-wrap gap-4 mt-6">
+                    <span class="px-3 py-1 bg-blue-100 dark:bg-blue-800 rounded-full text-sm font-medium">低温催化</span>
+                    <span class="px-3 py-1 bg-blue-100 dark:bg-blue-800 rounded-full text-sm font-medium">乙烯氧化</span>
+                    <span class="px-3 py-1 bg-blue-100 dark:bg-blue-800 rounded-full text-sm font-medium">铂催化剂</span>
+                    <span class="px-3 py-1 bg-blue-100 dark:bg-blue-800 rounded-full text-sm font-medium">原位碳修饰</span>
+                    <span class="px-3 py-1 bg-blue-100 dark:bg-blue-800 rounded-full text-sm font-medium">SBA-15</span>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="card p-6 fade-in delay-1">
+                    <h3 class="text-lg font-semibold mb-4">研究背景与意义</h3>
+                    <p class="mb-4">乙烯(C<sub>2</sub>H<sub>4</sub>)是一种小分子挥发性有机化合物，同时也是植物自然成熟和衰老过程中产生的激素。即使浓度远低于5 ppb（乙烯作用的阈值水平），也会严重损害水果和蔬菜在储存和运输过程中的品质。</p>
+                    <p>实际大气环境中乙烯含量通常高于5 ppb，在城市地区由于车辆尾气排放和植物生长发育，乙烯含量甚至可达数百ppb。因此，从储存和运输环境中去除乙烯对延长水果和蔬菜保质期至关重要。</p>
+                </div>
+                
+                <div class="card p-6 fade-in delay-2">
+                    <h3 class="text-lg font-semibold mb-4">研究方法创新</h3>
+                    <p class="mb-4">本研究通过固相研磨-浸渍-惰性气氛煅烧的简易方法，原位制备了碳修饰的SBA-15负载Pt催化剂(Pt/CSBA-15)。</p>
+                    <p>研究采用了多种表征手段，包括XRD、TEM、HRTEM、BET、XPS、TG-DSC、H<sub>2</sub>O-TPD、DVS等，结合DFT计算和原位FTIR分析，系统研究了催化剂的结构特性、催化性能及其构效关系。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16 fade-in delay-3">
+            <h2 class="section-title text-2xl font-bold">催化剂结构与特性</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8 mt-8">
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4">催化剂结构特征</h3>
+                    <p class="mb-4">特征分析结果表明，Pt/CSBA-15催化剂中SBA-15的六方孔道内成功形成了薄碳层。同时，Pt颗粒在SBA-15通道中分散良好，且Pt/CSBA-15的Pt颗粒尺寸小于未碳修饰的催化剂(Pt/SBA-15)。</p>
+                    <div class="mt-4">
+                        <h4 class="font-medium mb-2">Pt颗粒平均尺寸比较:</h4>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>3Pt/CSBA-15: <span class="highlight">4.74 ± 0.05 nm</span></li>
+                            <li>3Pt/SBA-15: 5.27 ± 0.08 nm</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4">催化剂性能优势</h3>
+                    <p class="mb-4">O<sub>2</sub>在小尺寸Pt颗粒上更容易吸附和活化，且原位形成的碳物种增强了催化剂的疏水性。因此，3Pt/CSBA-15和5Pt/CSBA-15能够在0°C下维持50 ppm乙烯的100%转化率超过7小时。</p>
+                    <p>特别是3Pt/CSBA-15在20小时后仍能保持<span class="highlight">81.5%的乙烯转化率和71.6%的CO<sub>2</sub>产率</span>，展现出远优于3Pt/SBA-15的催化性能。</p>
+                </div>
+            </div>
+            
+            <div class="mt-8">
+                <h3 class="text-lg font-semibold mb-4">催化性能对比</h3>
+                <div class="catalyst-performance">
+                    <div class="performance-bar" style="height: 0%" data-height="81.5">
+                        <div class="performance-label">3Pt/CSBA-15<br>C<sub>2</sub>H<sub>4</sub>转化率</div>
+                        <div class="performance-value">81.5%</div>
+                    </div>
+                    <div class="performance-bar" style="height: 0%" data-height="71.6">
+                        <div class="performance-label">3Pt/CSBA-15<br>CO<sub>2</sub>产率</div>
+                        <div class="performance-value">71.6%</div>
+                    </div>
+                    <div class="performance-bar" style="height: 0%" data-height="63.3">
+                        <div class="performance-label">3Pt/SBA-15<br>C<sub>2</sub>H<sub>4</sub>转化率</div>
+                        <div class="performance-value">63.3%</div>
+                    </div>
+                    <div class="performance-bar" style="height: 0%" data-height="55.3">
+                        <div class="performance-label">3Pt/SBA-15<br>CO<sub>2</sub>产率</div>
+                        <div class="performance-value">55.3%</div>
+                    </div>
+                </div>
+                <p class="text-center text-sm text-gray-600 dark:text-gray-400 mt-8">图表：20小时反应后各催化剂的性能对比（0°C条件下）</p>
+            </div>
+        </section>
+
+        <section class="mb-16 fade-in delay-4">
+            <h2 class="section-title text-2xl font-bold">关键发现与机理</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8 mt-8">
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4"><i class="fas fa-water text-blue-500 mr-2"></i>疏水性影响</h3>
+                    <p class="mb-4">DFT计算和原位FTIR测量结果证实，小尺寸Pt颗粒具有较强的O<sub>2</sub>亲和力，能够促进O<sub>2</sub>吸附。同时，原位形成的疏水性碳层能有效抑制竞争性H<sub>2</sub>O吸附。</p>
+                    <p>H<sub>2</sub>O-TPD和动态水蒸气吸附(DVS)分析结果表明，与3Pt/SBA-15相比，碳修饰的催化剂表现出更强的疏水性，有效抑制了水分子对活性位点的占据。</p>
+                </div>
+                
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4"><i class="fas fa-atom text-blue-500 mr-2"></i>氧气活化机制</h3>
+                    <p class="mb-4">O<sub>2</sub>-TPD结果显示3Pt/CSBA-15具有更强的O<sub>2</sub>吸附和活化能力。DFT计算证实，小尺寸Pt纳米簇更容易吸附O<sub>2</sub>分子（Pt<sub>22</sub>上的吸附能为-1.042 eV，而Pt<sub>79</sub>上为-0.503 eV）。</p>
+                    <p>此外，DFT计算还表明H<sub>2</sub>O与Pt的亲和力强于O<sub>2</sub>（单个H<sub>2</sub>O分子在Pt<sub>22</sub>上的吸附能为-1.851 eV），证实了疏水表面对催化性能的关键作用。</p>
+                </div>
+            </div>
+            
+            <div class="card p-6 mt-8">
+                <h3 class="text-lg font-semibold mb-4">反应机理示意</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-medium mb-2">Pt/SBA-15上的乙烯氧化:</h4>
+                        <ol class="list-decimal pl-5 space-y-2">
+                            <li>O<sub>2</sub>和C<sub>2</sub>H<sub>4</sub>在Pt表面吸附并活化</li>
+                            <li>活性氧与吸附的C<sub>2</sub>H<sub>4</sub>反应形成CH<sub>2</sub>O</li>
+                            <li>CH<sub>2</sub>O进一步分解为CO，随后被氧化为CO<sub>2</sub></li>
+                            <li>反应过程中，持续生成的H<sub>2</sub>O与O<sub>2</sub>强烈竞争Pt活性位点</li>
+                            <li>由于Pt对H<sub>2</sub>O的亲和力强于O<sub>2</sub>，催化剂逐渐失活</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h4 class="font-medium mb-2">Pt/CSBA-15上的乙烯氧化:</h4>
+                        <ol class="list-decimal pl-5 space-y-2">
+                            <li>惰性气氛下高温煅烧形成的碳层在SBA-15孔道内形成</li>
+                            <li>碳层与SBA-15限域效应协同作用，限制Pt颗粒生长</li>
+                            <li>小尺寸Pt颗粒对O<sub>2</sub>表现出更强的亲和力</li>
+                            <li>疏水性碳层显著降低Pt颗粒对H<sub>2</sub>O的亲和力</li>
+                            <li>抑制了H<sub>2</sub>O在催化剂表面的吸附，减轻了催化剂失活</li>
+                            <li>催化活性得以长时间维持</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16 fade-in delay-4">
+            <h2 class="section-title text-2xl font-bold">环境应用意义</h2>
+            
+            <div class="card p-6">
+                <p class="mb-4">乙烯在大气环境中普遍存在，对果蔬储存极为有害。低温催化氧化乙烯被认为是去除乙烯最有效和最有前途的方法。</p>
+                <p class="mb-4">本研究提出的原位碳修饰SBA-15负载Pt催化剂(Pt/CSBA-15)在0°C下表现出优异的催化活性和抗失活能力，这对实际果蔬冷藏环境中乙烯的去除具有重要意义。</p>
+                <p class="mb-4">此外，本研究揭示了原位碳修饰是调节金属颗粒尺寸和构建疏水催化剂表面的有效方法，这可用于开发适用于低温催化氧化乙烯的高效催化剂。</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 mt-8">
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4">催化剂优势总结</h3>
+                    <ul class="list-disc pl-5 space-y-3">
+                        <li>简易一步制备方法，操作简单</li>
+                        <li>0°C低温条件下高活性，适用于实际冷藏环境</li>
+                        <li>长时间催化稳定性（>7小时保持100%转化率）</li>
+                        <li>高CO<sub>2</sub>选择性（高达71.6%）</li>
+                        <li>优异的抗失活能力（20小时后仍保持81.5%转化率）</li>
+                    </ul>
+                </div>
+                
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4">未来应用展望</h3>
+                    <p class="mb-4">该研究为开发用于果蔬冷链运输和储存过程中乙烯去除的实用催化剂提供了新思路。通过原位碳修饰和金属颗粒尺寸调控，可能进一步优化催化剂性能，降低贵金属用量，提高经济可行性。</p>
+                    <p>这种催化技术有望应用于冷藏集装箱、冷库、包装材料等场景，显著延长水果和蔬菜的保质期，减少食品浪费，具有重要的环境和经济价值。</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-100 dark:bg-gray-800 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-8 border-b border-gray-200 dark:border-gray-700 pb-8 mb-8">
+                <div>
+                    <h3 class="text-lg font-bold mb-4">论文信息</h3>
+                    <p class="mb-2"><span class="font-medium">标题:</span> Efficient Catalytic Oxidation of Ethylene at 0 °C on an in Situ Carbon Modified Pt Catalyst Supported on SBA-15</p>
+                    <p class="mb-2"><span class="font-medium">作者:</span> Qian Zhao, Yang Gu, Heyun Fu, Xiaolei Qu, Zhaoyi Xu, Benny Chefetz, Shourong Zheng, Dongqiang Zhu</p>
+                    <p class="mb-2"><span class="font-medium">期刊:</span> Environmental Science & Technology 2024, 58, 3483−3494</p>
+                    <p><span class="font-medium">DOI:</span> https://doi.org/10.1021/acs.est.3c07320</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">作者</h3>
+                    <div class="flex items-center mb-4">
+                        <img src="https://via.placeholder.com/60" alt="Luo Yuan" class="rounded-full w-16 h-16 mr-4">
+                        <div>
+                            <h4 class="font-bold">Luo Yuan</h4>
+                            <p class="text-gray-600 dark:text-gray-400">科学传播者 | 可视化专家</p>
+                            <div class="flex space-x-3 mt-2">
+                                <a href="https://twitter.com/luoyuan" class="text-blue-500 hover:text-blue-600" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="text-blue-500 hover:text-blue-600" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="text-blue-500 hover:text-blue-600" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <p class="text-gray-600 dark:text-gray-400">&copy; 2025 Luo Yuan. 版权所有。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 主题切换功能
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+        
+        // 检查系统偏好
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            htmlElement.classList.remove('light');
+            htmlElement.classList.add('dark');
+            themeToggle.checked = true;
+        }
+        
+        // 监听切换
+        themeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                htmlElement.classList.remove('light');
+                htmlElement.classList.add('dark');
+            } else {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+            }
+        });
+        
+        // 图表动画
+        document.addEventListener('DOMContentLoaded', function() {
+            // 延迟执行以确保DOM完全加载
+            setTimeout(() => {
+                const performanceBars = document.querySelectorAll('.performance-bar');
+                performanceBars.forEach(bar => {
+                    const height = bar.getAttribute('data-height');
+                    bar.style.height = `${height}%`;
+                });
+            }, 500);
+        });
+        
+        // 懒加载实现
+        document.addEventListener('DOMContentLoaded', function() {
+            const lazyLoadElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = "1";
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {threshold: 0.1});
+            
+            lazyLoadElements.forEach(element => {
+                element.style.opacity = "0";
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
