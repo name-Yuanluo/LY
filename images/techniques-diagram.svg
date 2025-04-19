@@ -1,0 +1,42 @@
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="800" height="500" fill="white"/>
+    <rect x="50" y="50" width="700" height="400" rx="8" fill="#F9F9F9" stroke="#E0E0E0"/>
+    
+    <!-- Table Tennis Table -->
+    <rect x="150" y="150" width="500" height="250" rx="2" fill="#0050A0" stroke="#FFFFFF" stroke-width="2"/>
+    <line x1="400" y1="150" x2="400" y2="400" stroke="#FFFFFF" stroke-width="2"/>
+    <line x1="150" y1="275" x2="650" y2="275" stroke="#FFFFFF" stroke-width="2"/>
+    
+    <!-- Techniques Legend -->
+    <text x="70" y="100" font-family="Arial" font-size="18" font-weight="bold" fill="#333333">乒乓球接发球技术</text>
+    
+    <!-- Legend Items -->
+    <circle cx="70" cy="130" r="6" fill="#FF6B6B"/>
+    <text x="85" y="135" font-family="Arial" font-size="14" fill="#333333">搓接技术</text>
+    
+    <circle cx="70" cy="160" r="6" fill="#4ECDC4"/>
+    <text x="85" y="165" font-family="Arial" font-size="14" fill="#333333">推挡技术</text>
+    
+    <circle cx="70" cy="190" r="6" fill="#FFD166"/>
+    <text x="85" y="195" font-family="Arial" font-size="14" fill="#333333">拉球技术</text>
+    
+    <circle cx="70" cy="220" r="6" fill="#6A0572"/>
+    <text x="85" y="225" font-family="Arial" font-size="14" fill="#333333">挑打技术</text>
+    
+    <!-- Technique Positions on Table -->
+    <!-- Positions for different techniques -->
+    <circle cx="200" cy="200" r="8" fill="#FF6B6B" stroke="#FFFFFF" stroke-width="1.5"/>
+    <circle cx="300" cy="180" r="8" fill="#4ECDC4" stroke="#FFFFFF" stroke-width="1.5"/>
+    <circle cx="500" cy="220" r="8" fill="#FFD166" stroke="#FFFFFF" stroke-width="1.5"/>
+    <circle cx="600" cy="320" r="8" fill="#6A0572" stroke="#FFFFFF" stroke-width="1.5"/>
+    
+    <!-- Ball Trajectories -->
+    <path d="M200 200 Q 250 150 300 180" stroke="#FF6B6B" stroke-width="2" stroke-dasharray="4 2" fill="none"/>
+    <path d="M300 180 Q 400 150 500 220" stroke="#4ECDC4" stroke-width="2" stroke-dasharray="4 2" fill="none"/>
+    <path d="M500 220 Q 550 270 600 320" stroke="#FFD166" stroke-width="2" stroke-dasharray="4 2" fill="none"/>
+    <path d="M600 320 Q 550 220 500 190" stroke="#6A0572" stroke-width="2" stroke-dasharray="4 2" fill="none"/>
+    
+    <!-- Players -->
+    <ellipse cx="130" cy="275" rx="30" ry="20" fill="#EEEEEE" stroke="#333333"/>
+    <ellipse cx="670" cy="275" rx="30" ry="20" fill="#EEEEEE" stroke="#333333"/>
+</svg>

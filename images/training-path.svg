@@ -1,0 +1,82 @@
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="800" height="500" fill="white"/>
+    <rect x="50" y="50" width="700" height="400" rx="8" fill="#F9F9F9" stroke="#E0E0E0"/>
+    
+    <!-- Title -->
+    <text x="70" y="100" font-family="Arial" font-size="18" font-weight="bold" fill="#333333">从零基础到国家队水平的训练路径</text>
+    
+    <!-- Timeline -->
+    <line x1="100" y1="200" x2="700" y2="200" stroke="#E0E0E0" stroke-width="4"/>
+    
+    <!-- Stages -->
+    <!-- Entry Level -->
+    <circle cx="140" cy="200" r="12" fill="#64B5F6" stroke="#FFFFFF" stroke-width="2"/>
+    <text x="140" y="240" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333333">入门阶段</text>
+    <text x="140" y="260" font-family="Arial" font-size="12" text-anchor="middle" fill="#666666">0-6个月</text>
+    <rect x="110" y="160" width="60" height="4" rx="2" fill="#64B5F6"/>
+    <text x="140" y="150" font-family="Arial" font-size="12" text-anchor="middle" fill="#666666">基本技术</text>
+    
+    <!-- Beginner -->
+    <circle cx="260" cy="200" r="12" fill="#81C784" stroke="#FFFFFF" stroke-width="2"/>
+    <text x="260" y="240" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333333">初级阶段</text>
+    <text x="260" y="260" font-family="Arial" font-size="12" text-anchor="middle" fill="#666666">6-18个月</text>
+    <rect x="230" y="160" width="60" height="4" rx="2" fill="#81C784"/>
+    <text x="260" y="150" font-family="Arial" font-size="12" text-anchor="middle" fill="#666666">技术稳定化</text>
+    
+    <!-- Intermediate -->
+    <circle cx="380" cy="200" r="12" fill="#FFB74D" stroke="#FFFFFF" stroke-width="2"/>
+    <text x="380" y="240" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333333">中级阶段</text>
+    <text x="380" y="260" font-family="Arial" font-size="12" text-anchor="middle" fill="#666666">1.5-3年</text>
+    <rect x="350" y="160" width="60" height="4" rx="2" fill="#FFB74D"/>
+    <text x="380" y="150" font-family="Arial" font-size="12" text-anchor="middle" fill="#666666">战术意识</text>
+    
+    <!-- Advanced -->
+    <circle cx="520" cy="200" r="12" fill="#E57373" stroke="#FFFFFF" stroke-width="2"/>
+    <text x="520" y="240" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333333">高级阶段</text>
+    <text x="520" y="260" font-family="Arial" font-size="12" text-anchor="middle" fill="#666666">3-5年</text>
+    <rect x="490" y="160" width="60" height="4" rx="2" fill="#E57373"/>
+    <text x="520" y="150" font-family="Arial" font-size="12" text-anchor="middle" fill="#666666">个人风格</text>
+    
+    <!-- Elite -->
+    <circle cx="660" cy="200" r="12" fill="#9575CD" stroke="#FFFFFF" stroke-width="2"/>
+    <text x="660" y="240" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333333">精英阶段</text>
+    <text x="660" y="260" font-family="Arial" font-size="12" text-anchor="middle" fill="#666666">5年以上</text>
+    <rect x="630" y="160" width="60" height="4" rx="2" fill="#9575CD"/>
+    <text x="660" y="150" font-family="Arial" font-size="12" text-anchor="middle" fill="#666666">专业水平</text>
+    
+    <!-- Connecting Lines -->
+    <line x1="152" y1="200" x2="248" y2="200" stroke="#E0E0E0" stroke-width="2" stroke-dasharray="4 2"/>
+    <line x1="272" y1="200" x2="368" y2="200" stroke="#E0E0E0" stroke-width="2" stroke-dasharray="4 2"/>
+    <line x1="392" y1="200" x2="508" y2="200" stroke="#E0E0E0" stroke-width="2" stroke-dasharray="4 2"/>
+    <line x1="532" y1="200" x2="648" y2="200" stroke="#E0E0E0" stroke-width="2" stroke-dasharray="4 2"/>
+    
+    <!-- Key Skills at Each Stage -->
+    <rect x="70" y="300" width="660" height="120" rx="4" fill="#FFFFFF" stroke="#E0E0E0"/>
+    
+    <line x1="140" y1="280" x2="140" y2="300" stroke="#64B5F6" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="140" y="320" font-family="Arial" font-size="12" text-anchor="middle" fill="#64B5F6">握拍、站姿</text>
+    <text x="140" y="340" font-family="Arial" font-size="12" text-anchor="middle" fill="#64B5F6">基本动作</text>
+    <text x="140" y="360" font-family="Arial" font-size="12" text-anchor="middle" fill="#64B5F6">手感培养</text>
+    
+    <line x1="260" y1="280" x2="260" y2="300" stroke="#81C784" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="260" y="320" font-family="Arial" font-size="12" text-anchor="middle" fill="#81C784">基本技术强化</text>
+    <text x="260" y="340" font-family="Arial" font-size="12" text-anchor="middle" fill="#81C784">发球接发球</text>
+    <text x="260" y="360" font-family="Arial" font-size="12" text-anchor="middle" fill="#81C784">基础步法</text>
+    
+    <line x1="380" y1="280" x2="380" y2="300" stroke="#FFB74D" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="380" y="320" font-family="Arial" font-size="12" text-anchor="middle" fill="#FFB74D">技术精细化</text>
+    <text x="380" y="340" font-family="Arial" font-size="12" text-anchor="middle" fill="#FFB74D">战术训练</text>
+    <text x="380" y="360" font-family="Arial" font-size="12" text-anchor="middle" fill="#FFB74D">比赛经验</text>
+    
+    <line x1="520" y1="280" x2="520" y2="300" stroke="#E57373" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="520" y="320" font-family="Arial" font-size="12" text-anchor="middle" fill="#E57373">技术专业化</text>
+    <text x="520" y="340" font-family="Arial" font-size="12" text-anchor="middle" fill="#E57373">战术体系</text>
+    <text x="520" y="360" font-family="Arial" font-size="12" text-anchor="middle" fill="#E57373">心理素质</text>
+    
+    <line x1="660" y1="280" x2="660" y2="300" stroke="#9575CD" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="660" y="320" font-family="Arial" font-size="12" text-anchor="middle" fill="#9575CD">六盆球训练</text>
+    <text x="660" y="340" font-family="Arial" font-size="12" text-anchor="middle" fill="#9575CD">科学化训练</text>
+    <text x="660" y="360" font-family="Arial" font-size="12" text-anchor="middle" fill="#9575CD">竞技状态管理</text>
+    
+    <text x="400" y="400" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333333">系统性训练 + 科学指导 + 比赛实践</text>
+</svg>

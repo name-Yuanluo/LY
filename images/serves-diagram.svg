@@ -1,0 +1,59 @@
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="800" height="500" fill="white"/>
+    <rect x="50" y="50" width="700" height="400" rx="8" fill="#F9F9F9" stroke="#E0E0E0"/>
+    
+    <!-- Table Tennis Table -->
+    <rect x="150" y="150" width="500" height="250" rx="2" fill="#38B0DE" stroke="#FFFFFF" stroke-width="2"/>
+    <line x1="400" y1="150" x2="400" y2="400" stroke="#FFFFFF" stroke-width="2"/>
+    <line x1="150" y1="275" x2="650" y2="275" stroke="#FFFFFF" stroke-width="2"/>
+    
+    <!-- Title -->
+    <text x="70" y="100" font-family="Arial" font-size="18" font-weight="bold" fill="#333333">发球类型与落点</text>
+    
+    <!-- Server Position -->
+    <circle cx="670" cy="330" r="12" fill="#222222" stroke="#FFFFFF" stroke-width="1.5"/>
+    <text x="685" y="335" font-family="Arial" font-size="14" fill="#333333">发球方</text>
+    
+    <!-- Serve Trajectories -->
+    <!-- Short Serve -->
+    <path d="M670 330 Q 600 280 540 320 Q 480 360 420 340 Q 360 320 320 300" stroke="#FF5252" stroke-width="2" fill="none"/>
+    <circle cx="320" cy="300" r="6" fill="#FF5252" stroke="#FFFFFF"/>
+    <text x="290" y="320" font-family="Arial" font-size="12" fill="#FF5252">短球</text>
+    
+    <!-- Long Serve -->
+    <path d="M670 330 Q 600 250 500 200 Q 400 150 210 180" stroke="#43A047" stroke-width="2" fill="none"/>
+    <circle cx="210" cy="180" r="6" fill="#43A047" stroke="#FFFFFF"/>
+    <text x="180" y="200" font-family="Arial" font-size="12" fill="#43A047">长球</text>
+    
+    <!-- Half-Long Serve -->
+    <path d="M670 330 Q 550 250 450 220 Q 350 190 270 240" stroke="#FFD54F" stroke-width="2" fill="none"/>
+    <circle cx="270" cy="240" r="6" fill="#FFD54F" stroke="#FFFFFF"/>
+    <text x="230" y="260" font-family="Arial" font-size="12" fill="#FFD54F">半出台球</text>
+    
+    <!-- Spin Types Legend -->
+    <text x="70" y="430" font-family="Arial" font-size="16" font-weight="bold" fill="#333333">旋转类型:</text>
+    
+    <!-- Topspin -->
+    <line x1="100" y1="450" x2="130" y2="450" stroke="#FF5252" stroke-width="2"/>
+    <circle cx="115" cy="450" r="5" fill="#FF5252"/>
+    <path d="M115 445 L 120 450 L 115 455" stroke="#FFFFFF" stroke-width="1" fill="none"/>
+    <text x="140" y="455" font-family="Arial" font-size="14" fill="#333333">上旋球</text>
+    
+    <!-- Backspin -->
+    <line x1="250" y1="450" x2="280" y2="450" stroke="#43A047" stroke-width="2"/>
+    <circle cx="265" cy="450" r="5" fill="#43A047"/>
+    <path d="M265 445 L 260 450 L 265 455" stroke="#FFFFFF" stroke-width="1" fill="none"/>
+    <text x="290" y="455" font-family="Arial" font-size="14" fill="#333333">下旋球</text>
+    
+    <!-- Sidespin -->
+    <line x1="400" y1="450" x2="430" y2="450" stroke="#FFD54F" stroke-width="2"/>
+    <circle cx="415" cy="450" r="5" fill="#FFD54F"/>
+    <path d="M410 450 A 5 5 0 0 0 420 450" stroke="#FFFFFF" stroke-width="1" fill="none"/>
+    <text x="440" y="455" font-family="Arial" font-size="14" fill="#333333">侧旋球</text>
+    
+    <!-- Combined Spin -->
+    <line x1="550" y1="450" x2="580" y2="450" stroke="#7B1FA2" stroke-width="2"/>
+    <circle cx="565" cy="450" r="5" fill="#7B1FA2"/>
+    <path d="M565 445 L 570 450 L 565 455 M 560 450 A 5 5 0 0 0 570 450" stroke="#FFFFFF" stroke-width="1" fill="none"/>
+    <text x="590" y="455" font-family="Arial" font-size="14" fill="#333333">组合旋转</text>
+</svg>
