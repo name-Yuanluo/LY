@@ -1,0 +1,113 @@
+/* Base styles */
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+}
+
+/* Technique cards styling */
+.technique-card {
+    border: 1px solid #f0f0f0;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.technique-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+}
+
+.technique-header {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+    background-color: #fafafa;
+}
+
+.technique-number {
+    font-size: 0.875rem;
+    font-family: 'font-geist-mono', monospace;
+    font-weight: 500;
+    color: #777;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.75rem;
+}
+
+.technique-title {
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.technique-content {
+    padding: 1rem;
+}
+
+.technique-content p {
+    margin-bottom: 0.75rem;
+    font-size: 0.9375rem;
+    color: #333;
+}
+
+.technique-points {
+    list-style-type: disc;
+    margin-left: 1.25rem;
+    font-size: 0.875rem;
+    color: #555;
+}
+
+.technique-points li {
+    margin-bottom: 0.25rem;
+}
+
+.technique-points li:last-child {
+    margin-bottom: 0;
+}
+
+/* Animation for dropdown content */
+.technique-card {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#moreTechniques.hidden .technique-card, 
+#advancedLevels.hidden {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .technique-header {
+        padding: 0.75rem;
+    }
+    
+    .technique-content {
+        padding: 0.75rem;
+    }
+    
+    .technique-number {
+        width: 24px;
+        height: 24px;
+        font-size: 0.75rem;
+    }
+}

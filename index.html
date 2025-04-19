@@ -1,816 +1,863 @@
-<!DOCTYPE html><html lang="zh-CN" class="light"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+<!DOCTYPE html>
+<html lang="zh">
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pt/CeO₂催化剂低温下增强稀释环氧乙烷催化氧化的研究</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* General Styles */
-        :root {
-            --primary: #3b82f6;
-            --secondary: #0f172a;
-            --accent: #2563eb;
-            --background: #ffffff;
-            --text: #1e293b;
-            --text-light: #64748b;
-            --border: #e2e8f0;
-            --card-bg: #f8fafc;
-            --highlight: #dbeafe;
-        }
-
-        .dark {
-            --primary: #3b82f6;
-            --secondary: #f8fafc;
-            --accent: #60a5fa;
-            --background: #0f172a;
-            --text: #f1f5f9;
-            --text-light: #94a3b8;
-            --border: #1e293b;
-            --card-bg: #1e293b;
-            --highlight: #1e3a8a;
-        }
-
-        body {
-            background-color: var(--background);
-            color: var(--text);
-            transition: all 0.3s ease;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        /* Custom Components */
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            transform: translateY(-2px);
-        }
-
-        .btn {
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--accent);
-            transform: scale(1.05);
-        }
-
-        .highlight {
-            background-color: var(--highlight);
-            color: var(--primary);
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-weight: 500;
-        }
-
-        /* Section Animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .fade-in.appear {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Specific Components */
-        .paper-title {
-            font-size: 2rem;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border);
-            color: var(--text);
-        }
-
-        .chart-container {
-            width: 100%;
-            height: 300px;
-            margin: 2rem 0;
-        }
-
-        .theme-toggle {
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 50%;
-            background-color: var(--card-bg);
-            color: var(--text);
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            background-color: var(--highlight);
-        }
-
-        /* Schema visualization */
-        .schema {
-            background-color: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            margin: 2rem 0;
-            position: relative;
-        }
-
-        .schema-arrow {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            color: var(--primary);
-            transition: all 0.3s ease;
-        }
-
-        .schema-box {
-            padding: 1rem;
-            background-color: var(--highlight);
-            border-radius: 0.5rem;
-            margin: 0.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .schema-box:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Author section */
-        .author-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 1.5rem;
-            background-color: var(--card-bg);
-            border-radius: 0.75rem;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .author-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        .author-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .social-links a {
-            margin: 0 0.5rem;
-            color: var(--text-light);
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--primary);
-            transform: scale(1.2);
-        }
-
-        /* Reaction mechanism visualization */
-        .mechanism {
-            overflow-x: auto;
-            padding: 1rem 0;
-        }
-
-        .pathway {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: nowrap;
-            margin: 1rem 0;
-        }
-
-        .molecule {
-            padding: 0.75rem 1.25rem;
-            background-color: var(--highlight);
-            border-radius: 0.5rem;
-            font-weight: 500;
-            margin: 0 0.5rem;
-            white-space: nowrap;
-        }
-
-        .arrow {
-            color: var(--primary);
-            margin: 0 0.25rem;
-            font-size: 1.25rem;
-        }
-
-        @media (max-width: 768px) {
-            .paper-title {
-                font-size: 1.5rem;
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>乒乓球技术指南 | 从入门到精通</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/inter-ui@3.19.3/inter.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lucide-icons@0.240.0/font/lucide-icons.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+                    },
+                    colors: {
+                        midnight: '#121212',
+                        charcoal: '#1E1E1E',
+                        slate: '#2E2E2E',
+                        silver: '#EAEAEA',
+                        accent: '#007AFF',
+                    }
+                }
             }
-            
-            .section-title {
-                font-size: 1.25rem;
-            }
-            
-            .chart-container {
-                height: 200px;
-            }
-        }
-    </style>
+        };
+    </script>
 </head>
-<body>
-    <header class="py-4 border-b border-solid" style="border-color: var(--border);">
-        <div class="container flex justify-between items-center">
-            <h1 class="text-lg font-semibold">催化研究</h1>
-            <button id="themeToggle" class="theme-toggle">
-                <i class="fas fa-sun dark:hidden"></i>
-                <i class="fas fa-moon hidden dark:block"></i>
-            </button>
+<body class="bg-white text-midnight font-sans antialiased">
+    <header class="border-b border-gray-100 sticky top-0 z-50 bg-white/80 backdrop-blur-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <svg width="32" height="32" viewBox="0 0 32 32" class="text-midnight">
+                    <use href="#table-tennis-logo"></use>
+                </svg>
+                <h1 class="text-xl font-semibold tracking-tight">乒乓球精通之路</h1>
+            </div>
+            <nav>
+                <ul class="flex space-x-6 text-sm">
+                    <li><a href="#techniques" class="opacity-70 hover:opacity-100 transition-opacity">接发球技术</a></li>
+                    <li><a href="#serves" class="opacity-70 hover:opacity-100 transition-opacity">发球类型</a></li>
+                    <li><a href="#training" class="opacity-70 hover:opacity-100 transition-opacity">训练计划</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
-    <main class="container py-8">
-        <!-- Paper Title Section -->
-        <section class="mb-12 fade-in">
-            <h1 class="paper-title">Pt/CeO₂催化剂低温下增强稀释环氧乙烷催化氧化的研究</h1>
-            <div class="flex flex-wrap items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
-                <span class="mr-4 mb-2">
-                    <i class="fas fa-newspaper mr-1"></i> Applied Catalysis A, General 639 (2022)
-                </span>
-                <span class="mr-4 mb-2">
-                    <i class="fas fa-calendar-alt mr-1"></i> 2022年4月26日
-                </span>
-                <span class="mb-2">
-                    <i class="fas fa-users mr-1"></i> 刘宇峰, 周颖, 柯全利等
-                </span>
+    <main class="container mx-auto px-4 py-8">
+        <section class="mb-12">
+            <div class="max-w-3xl mx-auto text-center mb-16">
+                <h2 class="text-4xl font-semibold mb-4 tracking-tight">掌握乒乓球的艺术</h2>
+                <p class="text-gray-600 text-lg">从基础接发球技术到专业训练计划，开启您的乒乓球职业生涯</p>
             </div>
-            <p class="text-lg leading-relaxed mb-6" style="color: var(--text-light);">
-                本研究展示了一种对稀释环氧乙烷(EO)进行彻底催化燃烧的方法。选择了Pt活性相和CeO₂载体引入协同效应，结果表明与广泛使用的Pt/Al₂O₃催化剂相比，Pt/CeO₂催化剂表现出更优异的催化活性和更小的结焦趋势。
-            </p>
-            <div class="flex flex-wrap gap-2">
-                <span class="highlight">环氧乙烷</span>
-                <span class="highlight">稀释气体</span>
-                <span class="highlight">Pt/CeO₂</span>
-                <span class="highlight">催化氧化</span>
-                <span class="highlight">降解途径</span>
-            </div>
-        </section>
-
-        <!-- Research Context -->
-        <section class="mb-12 fade-in">
-            <h2 class="section-title">研究背景</h2>
-            <div class="card p-6 mb-6">
-                <h3 class="font-semibold text-lg mb-2">环氧乙烷的应用与危害</h3>
-                <p class="mb-4">环氧乙烷(EO)是继甲醛之后的新一代优秀杀菌剂和消毒剂，广泛应用于医疗行业灭菌，特别是在存在热敏或辐射敏感物品(如软聚合物)的情况下。</p>
-                <div class="flex flex-col md:flex-row gap-4">
-                    <div class="flex-1 bg-blue-50 dark:bg-blue-900 p-4 rounded-lg">
-                        <h4 class="font-medium mb-2">应用场景</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>医疗设备消毒</li>
-                            <li>热敏感材料灭菌</li>
-                            <li>软聚合物处理</li>
-                        </ul>
-                    </div>
-                    <div class="flex-1 bg-red-50 dark:bg-red-900 p-4 rounded-lg">
-                        <h4 class="font-medium mb-2">健康与安全风险</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>易燃性气体 (沸点: 10.8°C)</li>
-                            <li>世界卫生组织致癌物清单 (2012, 第І类)</li>
-                            <li>工作场所允许暴露限值: 1 ppm</li>
-                            <li>长期暴露限值 (每周40小时): 0.5 ppm</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card p-6">
-                <h3 class="font-semibold text-lg mb-2">传统处理方法的局限性</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <div class="p-4 border border-solid rounded-lg" style="border-color: var(--border);">
-                        <div class="text-center mb-2">
-                            <i class="fas fa-fire text-2xl text-orange-500"></i>
-                        </div>
-                        <h4 class="font-medium text-center mb-2">热氧化</h4>
-                        <p class="text-sm">需要高温操作，可能导致EO爆炸，存在安全问题</p>
-                    </div>
-                    <div class="p-4 border border-solid rounded-lg" style="border-color: var(--border);">
-                        <div class="text-center mb-2">
-                            <i class="fas fa-filter text-2xl text-purple-500"></i>
-                        </div>
-                        <h4 class="font-medium text-center mb-2">吸附法</h4>
-                        <p class="text-sm">放热吸附过程中，浓缩的EO气体易聚合，影响吸附剂的循环使用</p>
-                    </div>
-                    <div class="p-4 border border-solid rounded-lg" style="border-color: var(--border);">
-                        <div class="text-center mb-2">
-                            <i class="fas fa-leaf text-2xl text-green-500"></i>
-                        </div>
-                        <h4 class="font-medium text-center mb-2">生物降解</h4>
-                        <p class="text-sm">在实际自然环境中，EO的降解效率可能存在问题</p>
-                    </div>
-                </div>
-                <p>催化燃烧是一种有前景的方法，可以高效、完全地将VOCs转化为无害的CO₂和H₂O，同时较低的操作温度和投资可以缓解安全和经济方面的担忧。</p>
-            </div>
-        </section>
-
-        <!-- Core Results -->
-        <section class="mb-12 fade-in">
-            <h2 class="section-title">核心研究结果</h2>
             
-            <div class="card p-6 mb-6">
-                <h3 class="font-semibold text-lg mb-4">催化性能评估</h3>
-                <div class="flex flex-col md:flex-row gap-6">
-                    <div class="flex-1">
-                        <h4 class="font-medium mb-2">催化剂活性比较</h4>
-                        <p class="mb-4">研究发现，与广泛使用的Pt/Al₂O₃催化剂相比，Pt/CeO₂催化剂表现出更优异的催化活性：</p>
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full border-collapse">
-                                <thead>
-                                    <tr>
-                                        <th class="py-2 px-4 border border-solid text-left" style="border-color: var(--border);">催化剂</th>
-                                        <th class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">T₉₀(°C)</th>
-                                        <th class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">碳沉积</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="py-2 px-4 border border-solid" style="border-color: var(--border);">Pt/CeO₂</td>
-                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">158</td>
-                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">极少</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-2 px-4 border border-solid" style="border-color: var(--border);">Pt/Al₂O₃</td>
-                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">238</td>
-                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">严重</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-2 px-4 border border-solid" style="border-color: var(--border);">CeO₂</td>
-                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">198</td>
-                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">少量</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-2 px-4 border border-solid" style="border-color: var(--border);">Al₂O₃</td>
-                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">270+</td>
-                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">严重</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <p class="text-sm mt-2" style="color: var(--text-light);">注: T₉₀表示90%EO转化率所需的温度</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="bg-gray-50 rounded-xl p-6 flex flex-col items-center text-center transition-all hover:shadow-sm">
+                    <div class="w-12 h-12 flex items-center justify-center bg-gray-100 rounded-full mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-horizontal"><path d="M18 8L22 12L18 16"/><path d="M6 8L2 12L6 16"/><path d="M2 12H22"/></svg>
                     </div>
-                    <div class="flex-1">
-                        <h4 class="font-medium mb-2">活性评估关键发现</h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Pt/CeO₂催化剂对稀释EO源表现出较低温度下的优异催化活性</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Pt/CeO₂催化剂在反应过程中保持稳定的转化率</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>Pt/Al₂O₃催化剂在催化氧化过程中表现出转化率下降趋势</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                                <span>产物分析显示，Pt/CeO₂的产物主要为CO₂，而Pt/Al₂O₃催化剂产生更多副产物</span>
-                            </li>
-                        </ul>
-                    </div>
+                    <h3 class="text-lg font-medium mb-2">接发球技术</h3>
+                    <p class="text-gray-600 text-sm">掌握16种基本接发球技术，从搓接到拉球，全面提升您的技术能力。</p>
                 </div>
-            </div>
-
-            <div class="card p-6 mb-6">
-                <h3 class="font-semibold text-lg mb-4">碳沉积分析</h3>
-                <div class="flex flex-col md:flex-row gap-6">
-                    <div class="flex-1">
-                        <h4 class="font-medium mb-2">热重分析结果</h4>
-                        <p class="mb-4">对使用后的催化剂进行热重分析，显示了不同催化剂的碳沉积情况：</p>
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full border-collapse">
-                                <thead>
-                                    <tr>
-                                        <th class="py-2 px-4 border border-solid text-left" style="border-color: var(--border);">催化剂</th>
-                                        <th class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">水脱附<br>重量损失(%)</th>
-                                        <th class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">中间体氧化<br>重量损失(%)</th>
-                                        <th class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">碳沉积燃烧<br>重量损失(%)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="py-2 px-4 border border-solid" style="border-color: var(--border);">Pt/CeO₂</td>
-                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">1.6</td>
-                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">0.7</td>
-                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">0.1</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-2 px-4 border border-solid" style="border-color: var(--border);">Pt/Al₂O₃</td>
-                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">3.8</td>
-                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">5.0</td>
-                                        <td class="py-2 px-4 border border-solid text-center" style="border-color: var(--border);">6.0</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="font-medium mb-2">碳沉积分析结论</h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-start">
-                                <i class="fas fa-exclamation-circle text-yellow-500 mt-1 mr-2"></i>
-                                <span>Pt/Al₂O₃催化剂表面明显变暗，表明严重的碳沉积</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-exclamation-circle text-yellow-500 mt-1 mr-2"></i>
-                                <span>Pt/Al₂O₃催化剂表面存在大量的吸附水和中间体，促进了碳沉积形成</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-exclamation-circle text-yellow-500 mt-1 mr-2"></i>
-                                <span>Pt/CeO₂催化剂表面仅有极少量的碳沉积，反应后外观几乎不变</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-exclamation-circle text-yellow-500 mt-1 mr-2"></i>
-                                <span>碳沉积不仅阻塞孔隙，还覆盖活性位点，影响催化剂活性</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card p-6">
-                <h3 class="font-semibold text-lg mb-4">催化剂表征分析</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="font-medium mb-2">XPS和H₂-TPR分析主要发现</h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-start">
-                                <i class="fas fa-atom text-blue-500 mt-1 mr-2"></i>
-                                <span>Pt/CeO₂催化剂中，Ce³⁺含量达到36.9%，表明存在丰富的氧空位</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-atom text-blue-500 mt-1 mr-2"></i>
-                                <span>Pt/CeO₂催化剂在88°C处的H₂消耗量高达84.8 μmol/g，证明其更优越的电子转移能力</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-atom text-blue-500 mt-1 mr-2"></i>
-                                <span>Pt/Al₂O₃催化剂表面吸附氧比例高达40.1%，主要来自羟基和水</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-atom text-blue-500 mt-1 mr-2"></i>
-                                <span>Pt/CeO₂催化剂具有更强的金属-载体相互作用和更丰富的氧空位</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-medium mb-2">Pt与CeO₂之间的协同效应</h4>
-                        <div class="schema p-4 relative">
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="schema-box">
-                                    <div class="mb-2 font-bold">Pt粒子</div>
-                                    <div>活化氧气分子</div>
-                                </div>
-                                <div class="schema-box">
-                                    <div class="mb-2 font-bold">CeO₂载体</div>
-                                    <div>提供氧空位活化EO</div>
-                                </div>
-                            </div>
-                            <div class="mt-4 text-center">
-                                <div class="font-medium mb-2">协同机制:</div>
-                                <p>EO在CeO₂表面被晶格氧氧化 (Ce⁴⁺→Ce³⁺)，消耗的晶格氧随后通过Pt粒子活化的氧分子迁移补充 (Ce³⁺→Ce⁴⁺)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Degradation Mechanism -->
-        <section class="mb-12 fade-in">
-            <h2 class="section-title">降解机理分析</h2>
-            
-            <div class="card p-6 mb-6">
-                <h3 class="font-semibold text-lg mb-4">原位红外光谱(DRIFTS)研究</h3>
-                <p class="mb-4">通过原位DRIFTS研究不同催化剂表面EO的降解途径，揭示了不同催化剂催化降解EO的机理差异：</p>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="font-medium mb-2 text-center">Pt/CeO₂催化剂上的降解路径</h4>
-                        <div class="mechanism">
-                            <div class="pathway">
-                                <div class="molecule">环氧乙烷</div>
-                                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
-                                <div class="molecule">乙醛</div>
-                                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
-                                <div class="molecule">乙酸</div>
-                                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
-                                <div class="molecule">CO₂ + H₂O</div>
-                            </div>
+                <div class="bg-gray-50 rounded-xl p-6 flex flex-col items-center text-center transition-all hover:shadow-sm">
+                    <div class="w-12 h-12 flex items-center justify-center bg-gray-100 rounded-full mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-cw"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.7 2.73L21 8"/><path d="M21 3v5h-5"/></svg>
+                    </div>
+                    <h3 class="text-lg font-medium mb-2">发球类型</h3>
+                    <p class="text-gray-600 text-sm">了解不同旋转、落点的发球类型，以及针对每种发球的最佳接发球方法。</p>
+                </div>
+                
+                <div class="bg-gray-50 rounded-xl p-6 flex flex-col items-center text-center transition-all hover:shadow-sm">
+                    <div class="w-12 h-12 flex items-center justify-center bg-gray-100 rounded-full mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-timer"><path d="M10 2h4"/><path d="M12 14v-4"/><path d="M4 13a8 8 0 0 1 8-7 8 8 0 1 1-5.3 14L4 17.6"/><path d="M9 17H4v5"/></svg>
+                    </div>
+                    <h3 class="text-lg font-medium mb-2">训练计划</h3>
+                    <p class="text-gray-600 text-sm">从零基础到国家队水平的完整训练计划，分阶段提升您的乒乓球技能。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="techniques" class="mb-16 max-w-5xl mx-auto">
+            <div class="mb-8">
+                <h2 class="text-3xl font-semibold mb-3 tracking-tight">乒乓球接发球技术及其要领</h2>
+                <p class="text-gray-600">掌握这些基本接发球技术是提高比赛水平的关键。以下是主要接发球技术及其要领：</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <span class="technique-number">01</span>
+                        <h3 class="technique-title">搓接</h3>
+                    </div>
+                    <div class="technique-content">
+                        <p>拍面后倾，向前向下击球，力度根据旋转强度调整。力量来源于小臂、手腕、手指的合力。</p>
+                        <ul class="technique-points">
+                            <li>手腕放松，以便更精确地控制球</li>
+                            <li>可根据需要变化为快搓、慢搓、搓长、搓短等</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <span class="technique-number">02</span>
+                        <h3 class="technique-title">托接</h3>
+                    </div>
+                    <div class="technique-content">
+                        <p>在搓球基础上，拍子向前并向上抬，击球时有一种用拍子在球底部画小半圆的感觉。</p>
+                        <ul class="technique-points">
+                            <li>主要用于应对不出台的强下旋球</li>
+                            <li>需要手腕灵活配合，减弱下旋力量</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <span class="technique-number">03</span>
+                        <h3 class="technique-title">推球</h3>
+                    </div>
+                    <div class="technique-content">
+                        <p>两脚与肩同宽站立，主要依靠手和小臂向前发力。拇指伸开，食指和虎口控制拍型角度。</p>
+                        <ul class="technique-points">
+                            <li>适用于不转球和弱上旋球</li>
+                            <li>保持动作简洁，避免大幅度挥拍</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <span class="technique-number">04</span>
+                        <h3 class="technique-title">吸接</h3>
+                    </div>
+                    <div class="technique-content">
+                        <p>在推挡基础上减力后撤，重心提高，含胸收腹。手臂及手指放松是关键。</p>
+                        <ul class="technique-points">
+                            <li>可以有效减弱对方的进攻力量</li>
+                            <li>注意控制回球的高度和落点</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <span class="technique-number">05</span>
+                        <h3 class="technique-title">拱接</h3>
+                    </div>
+                    <div class="technique-content">
+                        <p>类似推挡但拍子既向前推又稍向下，使球产生下旋效果。</p>
+                        <ul class="technique-points">
+                            <li>可用于控制对手的进攻节奏</li>
+                            <li>适合制造防守转换进攻的机会</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <span class="technique-number">06</span>
+                        <h3 class="technique-title">摆短</h3>
+                    </div>
+                    <div class="technique-content">
+                        <p>在来球上升期击球，动作快速。通常需上步，采用单步上步形式。手臂靠近身体，不宜过早伸入台内。</p>
+                        <ul class="technique-points">
+                            <li>力量方向以向前、下方为主，略带侧向力量</li>
+                            <li>特点：出手快、突然性强，限制对手拉攻</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <span class="technique-number">07</span>
+                        <h3 class="technique-title">切接</h3>
+                    </div>
+                    <div class="technique-content">
+                        <p>拍子半立，角度随来球旋转和强度调整。利用大臂带动小臂，在球上升期或最高点侧切。</p>
+                        <ul class="technique-points">
+                            <li>击出的球平直且有侧拐</li>
+                            <li>常用于化被动为主动</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <span class="technique-number">08</span>
+                        <h3 class="technique-title">撇接</h3>
+                    </div>
+                    <div class="technique-content">
+                        <p>在来球最高点击球的后中下部，手腕略有外展，向左侧前下方摩擦，使球带有左侧下旋。</p>
+                        <ul class="technique-points">
+                            <li>可有效改变球的路线</li>
+                            <li>对手判断难度大，容易回球失误</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <button id="showMoreTechniques" class="flex items-center justify-center mx-auto px-4 py-2 border border-gray-200 rounded-md text-sm hover:bg-gray-50 transition-colors">
+                    查看更多技术 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+            </div>
+
+            <div id="moreTechniques" class="hidden mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <span class="technique-number">09</span>
+                        <h3 class="technique-title">挑接</h3>
+                    </div>
+                    <div class="technique-content">
+                        <p>球即将过网时，手伸入台内准备。正手挑时上右脚，反手挑时上左脚。</p>
+                        <ul class="technique-points">
+                            <li>击球点：来球的高点期，击球后中部</li>
+                            <li>发力方式：前臂发力撞击为主，手腕快速抖动</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <span class="technique-number">10</span>
+                        <h3 class="technique-title">吊接</h3>
+                    </div>
+                    <div class="technique-content">
+                        <p>挥拍主要向上、稍向前用力。球弧线不高，带有上旋，速度不快，有飘和下沉感。</p>
+                        <ul class="technique-points">
+                            <li>常用于调动对手，争取主动</li>
+                            <li>可以制造对方回球质量下降的机会</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <span class="technique-number">11</span>
+                        <h3 class="technique-title">带接</h3>
+                    </div>
+                    <div class="technique-content">
+                        <p>对付上旋球的有效方法，借力往前带。过去的球弧线低且前拱。</p>
+                        <ul class="technique-points">
+                            <li>可给对方连续进攻造成困难</li>
+                            <li>技术关键在于借力而非纯用自身发力</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <span class="technique-number">12</span>
+                        <h3 class="technique-title">撕接</h3>
+                    </div>
+                    <div class="technique-content">
+                        <p>适合横拍反手对付下旋球，既有向前又有侧向发力。</p>
+                        <ul class="technique-points">
+                            <li>突然性强，可打乱对手节奏</li>
+                            <li>需要及时判断来球旋转，调整撕接方向</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <span class="technique-number">13</span>
+                        <h3 class="technique-title">敲接</h3>
+                    </div>
+                    <div class="technique-content">
+                        <p>适用于反手应对半高球和高吊弧圈球，出手快，突击性强。</p>
+                        <ul class="technique-points">
+                            <li>利用球的高度和力量优势</li>
+                            <li>当对手回球质量下降时，是抢攻的好机会</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <span class="technique-number">14</span>
+                        <h3 class="technique-title">拉接</h3>
+                    </div>
+                    <div class="technique-content">
+                        <p>主要用于应对长球，分为第一时间(容易发力)和第二时间(需调整)拉接。</p>
+                        <ul class="technique-points">
+                            <li>注重控制弧线高低和落点</li>
+                            <li>根据来球特点调整发力和动作幅度</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <span class="technique-number">15</span>
+                        <h3 class="technique-title">冲接</h3>
+                    </div>
+                    <div class="technique-content">
+                        <p>乒乓球最常见、最重要的技术手段，用于过渡、控制、相持和抢攻。</p>
+                        <ul class="technique-points">
+                            <li>冲接半出台球需要意识和胆量</li>
+                            <li>强调速度和力量的结合</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="technique-card">
+                    <div class="technique-header">
+                        <span class="technique-number">16</span>
+                        <h3 class="technique-title">打接</h3>
+                    </div>
+                    <div class="technique-content">
+                        <p>主要应对长球和高球，拍面基本垂直，根据来球旋转调整。</p>
+                        <ul class="technique-points">
+                            <li>以击打为主，略带摩擦</li>
+                            <li>强调击球的质量和威胁性</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="serves" class="mb-16 max-w-5xl mx-auto">
+            <div class="mb-8">
+                <h2 class="text-3xl font-semibold mb-3 tracking-tight">发球类型及相应接法</h2>
+                <p class="text-gray-600">了解各种发球类型特点及应对策略，提高比赛中的战术意识。</p>
+            </div>
+
+            <div class="mb-10">
+                <h3 class="font-medium text-xl mb-4">发球旋转类型及特点</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="font-semibold mb-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+                            上旋球
                         </div>
-                        <div class="mt-4">
-                            <h5 class="font-medium mb-2">关键发现:</h5>
-                            <ul class="space-y-2">
-                                <li class="flex items-start">
-                                    <i class="fas fa-caret-right text-green-500 mt-1 mr-2"></i>
-                                    <span>简单串联降解路径</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-caret-right text-green-500 mt-1 mr-2"></i>
-                                    <span>表面羟基信号强度几乎不变，表明H₂O易脱离催化剂表面</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-caret-right text-green-500 mt-1 mr-2"></i>
-                                    <span>弱H₂O亲和力抑制EO的多缩聚反应</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-caret-right text-green-500 mt-1 mr-2"></i>
-                                    <span>乙酸的降解可能是EO催化氧化的关键步骤</span>
-                                </li>
+                        <p class="text-sm text-gray-700">球绕左右轴向前旋转，速度快且上升。适合进攻型选手。</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="font-semibold mb-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>
+                            下旋球
+                        </div>
+                        <p class="text-sm text-gray-700">球绕左右轴向后旋转，下坠减速。适合控制型和防守型选手。</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="font-semibold mb-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 8 12 12 16"/></svg>
+                            左旋球
+                        </div>
+                        <p class="text-sm text-gray-700">球顺时针旋转，路线向右偏斜。接球时需要调整击球角度。</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="font-semibold mb-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><circle cx="12" cy="12" r="10"/><polyline points="12 8 16 12 12 16"/></svg>
+                            右旋球
+                        </div>
+                        <p class="text-sm text-gray-700">球逆时针旋转，路线向左偏斜。接发球时需注意球的实际路线。</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="font-semibold mb-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01"/><path d="M15 9h.01"/></svg>
+                            侧旋球
+                        </div>
+                        <p class="text-sm text-gray-700">球绕上下轴旋转，分左侧旋和右侧旋。有明显的侧向变化。</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="font-semibold mb-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2v20"/></svg>
+                            组合旋转
+                        </div>
+                        <p class="text-sm text-gray-700">如左侧上旋、右侧下旋等复合旋转。判断难度大，变化性强。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-10">
+                <h3 class="font-medium text-xl mb-4">发球落点分类</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="border border-gray-100 rounded-lg p-5">
+                        <h4 class="font-medium mb-3">长球</h4>
+                        <p class="text-sm text-gray-700 mb-3">第一落点靠近发球方端线，速度快，以速度为主，旋转次之。</p>
+                        <div class="text-sm bg-gray-50 p-3 rounded">
+                            <p class="font-medium mb-1">常用点位：</p>
+                            <ul class="list-disc list-inside text-gray-600">
+                                <li>正手底线长(A区)</li>
+                                <li>反手底线长(C区)</li>
                             </ul>
                         </div>
+                    </div>
+                    <div class="border border-gray-100 rounded-lg p-5">
+                        <h4 class="font-medium mb-3">短球</h4>
+                        <p class="text-sm text-gray-700 mb-3">第一落点靠近球网，旋转变化明显，动作一致性强。</p>
+                        <div class="text-sm bg-gray-50 p-3 rounded">
+                            <p class="font-medium mb-1">常用点位：</p>
+                            <ul class="list-disc list-inside text-gray-600">
+                                <li>正手短</li>
+                                <li>中路短</li>
+                                <li>反手小三角</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="border border-gray-100 rounded-lg p-5">
+                        <h4 class="font-medium mb-3">半出台球</h4>
+                        <p class="text-sm text-gray-700 mb-3">介于长短球之间，判断难度大，侧上旋和不转球更易出台。</p>
+                        <div class="text-sm bg-gray-50 p-3 rounded">
+                            <p class="font-medium mb-1">特点：</p>
+                            <ul class="list-disc list-inside text-gray-600">
+                                <li>容易形成抢攻机会</li>
+                                <li>需要快速判断和应对</li>
+                                <li>容易制造对手接球失误</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="font-medium text-xl mb-4">不同类型发球的接法</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="border-b border-gray-200 px-4 py-3 text-left text-sm font-medium">发球类型</th>
+                                <th class="border-b border-gray-200 px-4 py-3 text-left text-sm font-medium">推荐接法</th>
+                                <th class="border-b border-gray-200 px-4 py-3 text-left text-sm font-medium">技术要点</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">上旋短球</td>
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">挑接、带接、推球</td>
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">前臂发力撞击，手腕微动；借力带动，球弧线低前拱；手小臂向前发力，保持平稳</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">上旋长球</td>
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">拉接、冲接、打接</td>
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">根据时机选择发力方式；直接加速回击，争取主动；强调质量和落点威胁</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">下旋短球</td>
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">搓接、托接、摆短</td>
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">控制旋转变化；减轻下旋影响；快速回球限制对手</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">下旋长球</td>
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">劈长、挑打、撕接</td>
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">大力劈向底线，角度变化大；撞击为主，改变球的旋转；增加侧向力量</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">侧旋球</td>
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">切接、撇接、搓接</td>
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">根据旋转方向调整角度；制造侧旋，使球不按常规路线行进；根据侧旋调整搓球角度</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">组合旋转球</td>
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">侧上旋-冲击；侧下旋-搓球</td>
+                                <td class="border-b border-gray-100 px-4 py-3 text-sm">冲击为主，注意球的侧向变化；搓球为主，注意拍型和触球部位；准确判断主旋转方向</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-10 bg-gray-50 p-6 rounded-lg">
+                <h3 class="font-medium text-lg mb-3">判断发球旋转的方法</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <h4 class="flex items-center text-sm font-medium mb-2">
+                            <span class="flex items-center justify-center w-5 h-5 bg-gray-200 rounded-full mr-2 text-xs">1</span>
+                            观察击球
+                        </h4>
+                        <ul class="text-sm text-gray-700 space-y-1 pl-7">
+                            <li>拍面角度和移动方向</li>
+                            <li>球拍接触球的部位</li>
+                            <li>挥拍发力大小和方向</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="flex items-center text-sm font-medium mb-2">
+                            <span class="flex items-center justify-center w-5 h-5 bg-gray-200 rounded-full mr-2 text-xs">2</span>
+                            观察球路
+                        </h4>
+                        <ul class="text-sm text-gray-700 space-y-1 pl-7">
+                            <li>过网高度和位置</li>
+                            <li>弧线特点和落点</li>
+                            <li>着台后的反弹表现</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="flex items-center text-sm font-medium mb-2">
+                            <span class="flex items-center justify-center w-5 h-5 bg-gray-200 rounded-full mr-2 text-xs">3</span>
+                            落点判断
+                        </h4>
+                        <ul class="text-sm text-gray-700 space-y-1 pl-7">
+                            <li>第一落点位置（靠近端线为长球）</li>
+                            <li>弧线最高点位置（靠近网前为短球）</li>
+                            <li>出台轨迹和速度</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="training" class="mb-16 max-w-5xl mx-auto">
+            <div class="mb-8">
+                <h2 class="text-3xl font-semibold mb-3 tracking-tight">从零基础到国家队水平的训练计划</h2>
+                <p class="text-gray-600">科学系统的训练计划是提高乒乓球水平的基础，以下是从入门到精英的完整训练路径。</p>
+            </div>
+
+            <div class="mb-12">
+                <div class="border-l-4 border-gray-200 pl-5 relative mb-8">
+                    <div class="absolute w-4 h-4 bg-white border-4 border-black rounded-full -left-[10px] top-0"></div>
+                    <h3 class="font-medium text-xl mb-3">入门阶段（0-6个月）</h3>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium text-base mb-2">目标</h4>
+                        <p class="text-gray-700">掌握基本握拍方法、站姿和简单击球技术</p>
                     </div>
                     
-                    <div>
-                        <h4 class="font-medium mb-2 text-center">Pt/Al₂O₃催化剂上的降解路径</h4>
-                        <div class="mechanism">
-                            <div class="pathway">
-                                <div class="molecule">环氧乙烷</div>
-                                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
-                                <div class="molecule">CO₂ + H₂O</div>
+                    <div class="mb-4">
+                        <h4 class="font-medium text-base mb-2">训练内容</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h5 class="text-sm font-medium mb-2">基础知识学习</h5>
+                                <p class="text-sm text-gray-700">每周2次，每次30分钟</p>
+                                <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                    <li>握拍法和基本站姿</li>
+                                    <li>乒乓球规则和计分方法</li>
+                                </ul>
                             </div>
-                            <div class="pathway">
-                                <div class="molecule">H₂O + Al₂O₃</div>
-                                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
-                                <div class="molecule">表面羟基</div>
-                                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
-                                <div class="molecule">酸催化</div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h5 class="text-sm font-medium mb-2">基本动作训练</h5>
+                                <p class="text-sm text-gray-700">每周3次，每次1小时</p>
+                                <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                    <li>徒手挥拍练习：体会重心转移</li>
+                                    <li>正手攻球：拍面垂直或略下压</li>
+                                    <li>反手挡拨：小幅度动作</li>
+                                    <li>搓球练习：手腕稳定，平稳发力</li>
+                                </ul>
                             </div>
-                            <div class="pathway">
-                                <div class="molecule">环氧乙烷</div>
-                                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
-                                <div class="molecule">乙二醇</div>
-                                <div class="arrow"><i class="fas fa-arrow-right"></i></div>
-                                <div class="molecule">聚合物/焦炭</div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h5 class="text-sm font-medium mb-2">手感培养</h5>
+                                <p class="text-sm text-gray-700">每周2次，每次20分钟</p>
+                                <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                    <li>颠球练习：达到指定次数</li>
+                                    <li>对墙击打：控制力量和方向</li>
+                                </ul>
                             </div>
-                        </div>
-                        <div class="mt-4">
-                            <h5 class="font-medium mb-2">关键发现:</h5>
-                            <ul class="space-y-2">
-                                <li class="flex items-start">
-                                    <i class="fas fa-caret-right text-red-500 mt-1 mr-2"></i>
-                                    <span>复杂多路径降解机制</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-caret-right text-red-500 mt-1 mr-2"></i>
-                                    <span>CO₂在催化剂表面积累形成稳定碳酸盐</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-caret-right text-red-500 mt-1 mr-2"></i>
-                                    <span>表面存在大量羟基，作为酸性位点引发副反应</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-caret-right text-red-500 mt-1 mr-2"></i>
-                                    <span>EO易水合生成乙二醇，进一步聚合形成二聚体、聚合物或焦炭</span>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="card p-6">
-                <h3 class="font-semibold text-lg mb-3">降解机理总结</h3>
-                <div class="flex flex-col md:flex-row gap-6">
-                    <div class="flex-1">
-                        <h4 class="font-medium mb-2 text-green-600 dark:text-green-400">Pt/CeO₂优势</h4>
-                        <ul class="space-y-2">
-                            <li class="flex items-start">
-                                <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
-                                <span>简单串联降解路径，副产物少</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
-                                <span>较弱的H₂O亲和力，抑制多缩聚反应</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
-                                <span>更强的金属-载体相互作用，促进氧活化</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
-                                <span>丰富的氧空位，有利于EO的活化</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-plus-circle text-green-500 mt-1 mr-2"></i>
-                                <span>催化剂表面快速恢复，适合下一轮催化循环</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="font-medium mb-2 text-red-600 dark:text-red-400">Pt/Al₂O₃劣势</h4>
-                        <ul class="space-y-2">
-                            <li class="flex items-start">
-                                <i class="fas fa-minus-circle text-red-500 mt-1 mr-2"></i>
-                                <span>复杂多路径降解机制，副产物多</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-minus-circle text-red-500 mt-1 mr-2"></i>
-                                <span>表面酸性催化反应导致多种副产物</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-minus-circle text-red-500 mt-1 mr-2"></i>
-                                <span>CO₂在表面形成稳定碳酸盐，需要更高温度分解</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-minus-circle text-red-500 mt-1 mr-2"></i>
-                                <span>强H₂O亲和力，促进乙二醇形成和聚合反应</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-minus-circle text-red-500 mt-1 mr-2"></i>
-                                <span>严重碳沉积覆盖活性位点，影响催化活性</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Conclusion -->
-        <section class="mb-12 fade-in">
-            <h2 class="section-title">结论与应用前景</h2>
-            <div class="card p-6">
-                <div class="flex flex-col md:flex-row gap-6">
-                    <div class="flex-1">
-                        <h3 class="font-semibold text-lg mb-3">主要结论</h3>
-                        <ul class="space-y-3">
-                            <li class="flex items-start">
-                                <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-2"></i>
-                                <span>Pt/CeO₂催化剂在稀释EO催化氧化中表现出优异活性，T₉₀仅为158°C</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-2"></i>
-                                <span>Pt与CeO₂之间的强金属-载体相互作用和丰富氧空位是其优异性能的关键</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-2"></i>
-                                <span>Pt/CeO₂催化剂弱H₂O亲和力抑制了EO的多缩聚反应，显著减少碳沉积</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-2"></i>
-                                <span>Pt/CeO₂催化剂上EO降解呈现简单串联路径，而Pt/Al₂O₃上则是复杂多路径机制</span>
-                            </li>
-                        </ul>
+                <div class="border-l-4 border-gray-200 pl-5 relative mb-8">
+                    <div class="absolute w-4 h-4 bg-white border-4 border-black rounded-full -left-[10px] top-0"></div>
+                    <h3 class="font-medium text-xl mb-3">初级阶段（6-18个月）</h3>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium text-base mb-2">目标</h4>
+                        <p class="text-gray-700">掌握基本技术动作，形成稳定击球能力，开始发展个人打法</p>
                     </div>
-                    <div class="flex-1">
-                        <h3 class="font-semibold text-lg mb-3">应用前景</h3>
-                        <p class="mb-4">Pt/CeO₂催化剂的高活性和弱H₂O亲和力使其在实际应用条件下非常有前景：</p>
-                        <ul class="space-y-3">
-                            <li class="flex items-start">
-                                <i class="fas fa-industry text-blue-500 mt-1 mr-2"></i>
-                                <span>医疗器械灭菌后EO废气处理</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-industry text-blue-500 mt-1 mr-2"></i>
-                                <span>EO工业生产过程中稀释废气处理</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-industry text-blue-500 mt-1 mr-2"></i>
-                                <span>环境污染控制和工业安全防护</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fas fa-industry text-blue-500 mt-1 mr-2"></i>
-                                <span>低温催化氧化技术推广应用</span>
-                            </li>
-                        </ul>
-                        <p class="mt-4">研究结果表明，Pt/CeO₂催化剂在稀释EO催化氧化中具有显著优势，可进一步探索其规模化应用。</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium text-base mb-2">训练内容</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h5 class="text-sm font-medium mb-2">基本功强化</h5>
+                                <p class="text-sm text-gray-700">每周3次，每次1小时</p>
+                                <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                    <li>正手攻球：六七成发力，保证动作规范</li>
+                                    <li>反手推挡和拨球：三四成发力，稳定性为主</li>
+                                    <li>搓球技术：控制旋转和落点</li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h5 class="text-sm font-medium mb-2">前三板技术</h5>
+                                <p class="text-sm text-gray-700">每周2次，每次45分钟</p>
+                                <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                    <li>发球训练：基本上旋、下旋、侧旋</li>
+                                    <li>接发球技术：搓、推、挑</li>
+                                    <li>第三板进攻：发球后衔接进攻</li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h5 class="text-sm font-medium mb-2">步法训练</h5>
+                                <p class="text-sm text-gray-700">每周2次，每次30分钟</p>
+                                <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                    <li>左右移动：侧跳步，侧滑步</li>
+                                    <li>前后移动：上步、退步</li>
+                                    <li>结合技术的步法练习</li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h5 class="text-sm font-medium mb-2">实战训练</h5>
+                                <p class="text-sm text-gray-700">每周1次，1-2小时</p>
+                                <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                    <li>简单战术套路练习</li>
+                                    <li>与同水平球友对抗</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-l-4 border-gray-200 pl-5 relative mb-8">
+                    <div class="absolute w-4 h-4 bg-white border-4 border-black rounded-full -left-[10px] top-0"></div>
+                    <h3 class="font-medium text-xl mb-3">中级阶段（1.5-3年）</h3>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium text-base mb-2">目标</h4>
+                        <p class="text-gray-700">精细化技术动作，加强手感，提高战术意识和比赛能力</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4 class="font-medium text-base mb-2">训练内容</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h5 class="text-sm font-medium mb-2">技术精细化</h5>
+                                <p class="text-sm text-gray-700">每周3次，每次1小时</p>
+                                <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                    <li>正手拉球：不同力量和旋转的拉球</li>
+                                    <li>反手技术：快拨、拉球</li>
+                                    <li>搓球提升：掌握不同旋转的搓球</li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h5 class="text-sm font-medium mb-2">手感培养</h5>
+                                <p class="text-sm text-gray-700">每周2次，每次45分钟</p>
+                                <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                    <li>速度感练习：不同速度球的控制</li>
+                                    <li>旋转感练习：制造和应对各种旋转</li>
+                                    <li>力量控制：不同力量等级的发力</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h5 class="text-sm font-medium mb-2">战术训练</h5>
+                                <p class="text-sm text-gray-700">每周2次，每次1小时</p>
+                                <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                    <li>落点意识：控制击球落点</li>
+                                    <li>节奏控制：改变比赛节奏</li>
+                                    <li>对抗训练：针对不同打法</li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h5 class="text-sm font-medium mb-2">比赛训练</h5>
+                                <p class="text-sm text-gray-700">每周1-2次</p>
+                                <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                    <li>参加小型比赛</li>
+                                    <li>模拟比赛训练</li>
+                                    <li>比赛复盘和分析</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="showMoreLevels" class="flex items-center justify-center mx-auto px-4 py-2 border border-gray-200 rounded-md text-sm hover:bg-gray-50 transition-colors">
+                    查看高级和精英阶段 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+
+                <div id="advancedLevels" class="hidden mt-8">
+                    <div class="border-l-4 border-gray-200 pl-5 relative mb-8">
+                        <div class="absolute w-4 h-4 bg-white border-4 border-black rounded-full -left-[10px] top-0"></div>
+                        <h3 class="font-medium text-xl mb-3">高级阶段（3-5年）</h3>
+                        
+                        <div class="mb-4">
+                            <h4 class="font-medium text-base mb-2">目标</h4>
+                            <p class="text-gray-700">形成鲜明技战术风格，提高比赛能力和心理素质</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="font-medium text-base mb-2">训练内容</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h5 class="text-sm font-medium mb-2">技术专业化</h5>
+                                    <p class="text-sm text-gray-700">每周3次，各1.5小时</p>
+                                    <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                        <li>特长技术专项训练</li>
+                                        <li>弱点技术补强</li>
+                                        <li>技术完善与稳定性提高</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h5 class="text-sm font-medium mb-2">战术系统构建</h5>
+                                    <p class="text-sm text-gray-700">每周3次，各1小时</p>
+                                    <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                        <li>个人战术体系构建</li>
+                                        <li>针对不同打法的战术</li>
+                                        <li>关键分战术应用</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h5 class="text-sm font-medium mb-2">心理素质培养</h5>
+                                    <p class="text-sm text-gray-700">每周2次，各45分钟</p>
+                                    <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                        <li>比赛压力应对</li>
+                                        <li>专注力训练</li>
+                                        <li>自信心建立</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-l-4 border-gray-200 pl-5 relative">
+                        <div class="absolute w-4 h-4 bg-white border-4 border-black rounded-full -left-[10px] top-0"></div>
+                        <h3 class="font-medium text-xl mb-3">精英/国家队水平（5年以上）</h3>
+                        
+                        <div class="mb-4">
+                            <h4 class="font-medium text-base mb-2">目标</h4>
+                            <p class="text-gray-700">达到专业级别的技战术水平，能在高水平比赛中取得优异成绩</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="font-medium text-base mb-2">训练内容</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h5 class="text-sm font-medium mb-2">"六盆球"多球训练</h5>
+                                    <p class="text-sm text-gray-700">每周3-4次，各2小时</p>
+                                    <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                        <li>步法训练：推侧扑、全台跑位拉</li>
+                                        <li>正手训练：全台正手拉、短接侧身拉</li>
+                                        <li>反手训练：反手定点拉、短接反手拉</li>
+                                        <li>摆速训练：各种位置摆速</li>
+                                        <li>防守训练：定点和不定点防守</li>
+                                        <li>短球训练：摆短、劈长、挑打、拧拉</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h5 class="text-sm font-medium mb-2">高水平技战术整合</h5>
+                                    <p class="text-sm text-gray-700">每周3次，各1.5小时</p>
+                                    <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                        <li>技术完美化训练</li>
+                                        <li>战术智能化训练</li>
+                                        <li>个人风格极致化</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h5 class="text-sm font-medium mb-2">科学化训练</h5>
+                                    <p class="text-sm text-gray-700">贯穿整个训练</p>
+                                    <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                        <li>数据分析优化</li>
+                                        <li>视频分析提高</li>
+                                        <li>训练负荷和效果监控</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h5 class="text-sm font-medium mb-2">世界级对手研究</h5>
+                                    <p class="text-sm text-gray-700">每周1-2次</p>
+                                    <ul class="text-sm text-gray-700 list-disc list-inside mt-2">
+                                        <li>技战术分析</li>
+                                        <li>针对性战术准备</li>
+                                        <li>比赛策略研究</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <h3 class="font-medium text-lg mb-4">每个阶段的训练重点和评估标准</h3>
+                <div class="space-y-4">
+                    <div class="flex flex-col md:flex-row md:items-center border-b border-gray-200 pb-4">
+                        <div class="font-medium w-full md:w-1/4 mb-2 md:mb-0">入门阶段</div>
+                        <div class="md:w-3/4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <div class="text-sm font-medium mb-1">重点</div>
+                                <p class="text-sm text-gray-700">基本动作规范，手感建立</p>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium mb-1">评估</div>
+                                <p class="text-sm text-gray-700">动作是否到位，能否稳定击球</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center border-b border-gray-200 pb-4">
+                        <div class="font-medium w-full md:w-1/4 mb-2 md:mb-0">初级阶段</div>
+                        <div class="md:w-3/4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <div class="text-sm font-medium mb-1">重点</div>
+                                <p class="text-sm text-gray-700">技术动作稳定，基本战术意识</p>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium mb-1">评估</div>
+                                <p class="text-sm text-gray-700">连续对打能力，基本战术运用</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center border-b border-gray-200 pb-4">
+                        <div class="font-medium w-full md:w-1/4 mb-2 md:mb-0">中级阶段</div>
+                        <div class="md:w-3/4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <div class="text-sm font-medium mb-1">重点</div>
+                                <p class="text-sm text-gray-700">技术精细化，战术意识提升</p>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium mb-1">评估</div>
+                                <p class="text-sm text-gray-700">对抗能力，战术执行效果</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center border-b border-gray-200 pb-4">
+                        <div class="font-medium w-full md:w-1/4 mb-2 md:mb-0">高级阶段</div>
+                        <div class="md:w-3/4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <div class="text-sm font-medium mb-1">重点</div>
+                                <p class="text-sm text-gray-700">个人特色技战术，比赛心理</p>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium mb-1">评估</div>
+                                <p class="text-sm text-gray-700">比赛成绩，关键分表现</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center">
+                        <div class="font-medium w-full md:w-1/4 mb-2 md:mb-0">精英/国家队水平</div>
+                        <div class="md:w-3/4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <div class="text-sm font-medium mb-1">重点</div>
+                                <p class="text-sm text-gray-700">世界级技战术，竞技状态管理</p>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium mb-1">评估</div>
+                                <p class="text-sm text-gray-700">高水平比赛成绩，世界排名</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="py-8 border-t border-solid" style="border-color: var(--border);">
-        <div class="container">
-            <div class="mb-8">
-                <div class="author-card mx-auto max-w-md">
-                    <div class="author-avatar">LY</div>
-                    <h3 class="text-xl font-semibold mb-2">Luo Yuan</h3>
-                    <p class="text-sm mb-4" style="color: var(--text-light);">催化研究内容策划与可视化</p>
-                    <div class="social-links flex justify-center">
-                        <a href="https://twitter.com/luoyuan" target="_blank"><i class="fab fa-twitter text-xl"></i></a>
-                        <a href="https://github.com/luoyuan" target="_blank"><i class="fab fa-github text-xl"></i></a>
-                        <a href="https://linkedin.com/in/luoyuan" target="_blank"><i class="fab fa-linkedin text-xl"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center text-sm" style="color: var(--text-light);">
-                <p>© 2025 Luo Yuan. 保留所有权利。</p>
-                <p class="mt-2">原始论文: Liu 等 - 2022 - Enhanced catalytic oxidation of diluted ethylene oxide on Pt/CeO2 catalyst under low temperature</p>
-            </div>
+    <footer class="py-8 border-t border-gray-100">
+        <div class="container mx-auto px-4 text-center text-sm text-gray-500">
+            <p>Built with <a href="https://flowith.net" target="_blank" class="text-accent hover:underline">Flowith Oracle</a>.</p>
         </div>
     </footer>
 
+    <svg width="0" height="0" class="hidden">
+        <symbol id="table-tennis-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M26 6C23.791 6 22 7.791 22 10C22 12.209 23.791 14 26 14C28.209 14 30 12.209 30 10C30 7.791 28.209 6 26 6Z" fill="currentColor"/>
+            <path d="M20.437 11.294C19.933 10.791 19.933 9.973 20.437 9.47L24.236 5.671C24.739 5.167 25.557 5.167 26.06 5.671C26.564 6.174 26.564 6.992 26.06 7.495L22.261 11.294C21.758 11.798 20.94 11.798 20.437 11.294Z" fill="currentColor"/>
+            <path d="M8.126 23.874C9.292 25.04 10.896 25.799 12.667 25.963C14.439 26.127 16.192 25.683 17.602 24.727C19.012 23.77 20.011 22.361 20.42 20.751C20.829 19.141 20.623 17.439 19.839 15.962L27.879 7.914C28.114 7.676 28.246 7.361 28.246 7.032C28.245 6.704 28.112 6.388 27.875 6.151C27.639 5.914 27.324 5.78 26.995 5.778C26.666 5.777 26.349 5.909 26.112 6.144L18.049 14.159C16.571 13.374 14.867 13.168 13.255 13.578C11.643 13.988 10.233 14.988 9.277 16.4C8.321 17.811 7.877 19.566 8.042 21.339C8.208 23.112 8.97 24.716 10.138 25.883L8.126 27.887C7.995 28.016 7.891 28.17 7.819 28.34C7.748 28.509 7.711 28.692 7.71 28.876C7.709 29.061 7.745 29.244 7.814 29.414C7.884 29.584 7.986 29.739 8.116 29.869C8.246 29.999 8.401 30.101 8.571 30.171C8.741 30.24 8.924 30.276 9.109 30.275C9.293 30.274 9.476 30.237 9.645 30.166C9.815 30.094 9.969 29.99 10.098 29.859L12.101 27.858C12.803 28.56 13.644 29.118 14.577 29.498C15.51 29.878 16.514 30.073 17.528 30.073C18.541 30.073 19.546 29.878 20.479 29.498C21.412 29.118 22.253 28.56 22.955 27.858C23.657 27.157 24.215 26.316 24.595 25.383C24.975 24.45 25.17 23.446 25.17 22.432C25.17 21.418 24.975 20.414 24.595 19.481C24.215 18.548 23.657 17.707 22.955 17.005C22.253 16.303 21.412 15.745 20.479 15.366C19.546 14.986 18.541 14.79 17.528 14.79C16.514 14.79 15.51 14.986 14.577 15.366C13.644 15.745 12.803 16.303 12.101 17.005C10.703 18.422 9.937 20.373 9.95 22.399C9.964 24.426 10.756 26.365 12.174 27.764L8.126 23.874Z" fill="currentColor"/>
+        </symbol>
+    </svg>
+
+    <script src="script.js"></script>
     <script>
-        // Theme Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const html = document.documentElement;
-        
-        // Function to set theme
-        function setTheme(theme) {
-            if (theme === 'dark') {
-                html.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-            } else {
-                html.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-            }
-        }
-        
-        // Check for saved theme preference or use system preference
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            setTheme(savedTheme);
-        } else {
-            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            setTheme(systemPrefersDark ? 'dark' : 'light');
-        }
-        
-        // Toggle theme on click
-        themeToggle.addEventListener('click', () => {
-            if (html.classList.contains('dark')) {
-                setTheme('light');
-            } else {
-                setTheme('dark');
-            }
-        });
-        
-        // Animate elements when they appear in viewport
-        const fadeElements = document.querySelectorAll('.fade-in');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('appear');
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-        
-        fadeElements.forEach(element => {
-            observer.observe(element);
-        });
-        
-        // Apply dark mode classes manually to elements
-        function updateDarkModeClasses() {
-            const isDark = html.classList.contains('dark');
-            const icons = document.querySelectorAll('.fas.fa-sun, .fas.fa-moon');
-            
-            icons.forEach(icon => {
-                if (icon.classList.contains('fa-sun')) {
-                    icon.classList.toggle('hidden', isDark);
-                } else if (icon.classList.contains('fa-moon')) {
-                    icon.classList.toggle('hidden', !isDark);
-                }
-            });
-        }
-        
-        // Update dark mode classes when theme changes
-        themeToggle.addEventListener('click', updateDarkModeClasses);
-        // Initial update
-        updateDarkModeClasses();
+        window.addEventListener("wheel", (e)=> {
+            const isPinching = e.ctrlKey
+            if(isPinching) e.preventDefault()
+        }, { passive: false })
     </script>
-
-
-</body></html>
+</body>
+</html>
